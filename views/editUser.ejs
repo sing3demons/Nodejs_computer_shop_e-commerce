@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <% if(locals.user) { %>
+    <%- include layout %>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-11 col-md-10 mt-10 mx-auto card text-center">
+                <article class="card-body">
+                    <h3><b><u>แก้ไข</u></b></h3>
+                    <div class="card-body">
+                        <form action="/users/updateUser" method="post">
+                            <input type="hidden" name="id" class="form-control" id="id" placeholder=""
+                            value="<%= user._id %>">
+                            
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="email">E-mail</label>
+                                </div>
+                                <div class="input-group-addon" style="width: 2.6rem"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <input type="text" name="email" class="form-control" id="email" placeholder=""
+                                                value="<%= user.email %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="username">username</label>
+                                </div>
+                                <div class="input-group-addon" style="width: 2.6rem"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <input type="text" name="username" class="form-control" id="username" placeholder=""
+                                                value="<%= user.name %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="fullName">ชื่อ-สกุล</label>
+                                </div>
+                                <div class="input-group-addon" style="width: 2.6rem"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <input type="text" name="fullName" class="form-control" id="fullName" placeholder=""
+                                                value="<%= user.fullName %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="numberPhone">เบอร์โทรศัพท์</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                                            <input type="text" name="numberPhone" class="form-control" id="numberPhone"
+                                                value="<%= user.numberPhone %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="addressInput">ที่อยู่</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                                            <input type="text" name="addressInput" class="form-control" id="addressInput"
+                                                value="<%= user.addressInput %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="subdistrict">ตำบล</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                                            <input type="text" name="subdistrict" class="form-control" id="subdistrict"
+                                                value="<%= user.subdistrict %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="district">อำเภอ</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                                            <input type="text" name="district" class="form-control" id="district"
+                                                value="<%= user.district %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="province">จังหวัด</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                                            <input type="text" name="province" class="form-control" id="province"
+                                                value="<%= user.province %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 field-label-responsive">
+                                    <label for="postal_code">รหัสไปรษณี</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group has-danger">
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                                            <input type="text" name="postal_code" class="form-control" id="postal_code"
+                                                value="<%= user.postal_code %>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" value="update">
+                            </form>
+
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <br>
+    <% } %>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <title>แสดงรายละเอียดสินค้า</title>
+</head>
+
+<body>
+  <!-- Page Content -->
+  <% include layout %>
+  <div class="container">
+
+    <div class="row">
+      <% include sidebar %>
+
+      <div class="col-lg-9 mt-4">
+        <% products.forEach((product) => { %>
+        <div class="row">
+          <!-- Image -->
+          <div class="col-12 col-lg-6">
+            <div class="card bg-light mb-3">
+              <div class="card-body">
+                <a href="" data-toggle="modal" data-target="#productModal">
+                  <!-- <img class="img-fluid" src="https://dummyimage.com/800x800/55595c/fff" /> -->
+                  <img class="card-img-top img-fluid" src="/images/<%= product.photo %>" alt="900x400">
+
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add to cart -->
+          <div class="col-12 col-lg-6 add_to_cart_block">
+            <div class="card bg-light mb-3">
+              <div class="card-body">
+                <h3 class="card-title"><%= product.name%></h3>
+                <h4>฿ <%= formatNumber(product.price) %></h4>
+                <p class="card-text"><%-product.description%></p>
+                <form class="form-group" action="/shop/cart/" method="post">
+                  <input type="hidden" name="product_id" value="<%=product._id%>">
+                  <button type="submit" name="" value="เพิ่มลงตะกร้า"
+                    class="btn btn-success btn-lg btn-block text-uppercases">
+                    <i class="fa fa-shopping-cart"> เพิ่มลงตะกร้า</i></button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- เก่า -->
+        <!-- <div class="card mt-4">
+          <img class="card-img-top img-fluid" src="/images/<%= product.photo%>" alt="900x400">
+          <div class="card-body">
+            <h3 class="card-title"><%= product.name%></h3>
+            <h4>฿ <%= formatNumber(product.price) %></h4>
+            <p class="card-text"><%-product.description%></p>
+            <button type="submit" class="btn btn-success">เพิ่มลงตะกร้า</button>
+          </div>
+        </div> -->
+        <!-- /.card -->
+
+        <% }) %>
+
+      </div>
+      <!-- /.col-lg-9 -->
+    </div>
+
+    <!-- /.container -->
+
+
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<% include layout %>
+<div class="container-fluid">
+    <div class="row">
+        <%- include sidebar %>
+        <div class="col-lg-10 mt-4">
+            <div class="row">
+                <div class="col-8 col-lg-6">
+                    <div class="card bg-light mb-3">
+                        <div class="card-body">
+                            <!-- <img class="img-fluid" src="https://dummyimage.com/800x800/55595c/fff" /> -->
+                            <img class="card-img-top img-fluid" src="/images/<%= product.photo %>" alt="800x800">
+                        </div>
+                    </div>
+                </div>
+                <!-- Add to cart -->
+                <div class="col">
+                    <div class="col-xs-5" style="border:0px solid gray">
+                        <!-- Datos del vendedor y titulo del producto -->
+                        <h3><%= product.name%></h3>
+                        <br>
+                        <!-- Precios -->
+                        <h6 class="title-price"><small>PRECIO OFERTA</small></h6>
+                        <h3 style="margin-top:0px;">฿ <%= formatNumber(product.price)%> บาท</h3>
+                        <br>
+                        <!-- Botones de compra -->
+                        <form class="form-group" action="/shop/cart/" method="post">
+                            <div class="section" style="padding-bottom:20px;">
+                                <input type="hidden" name="product_id" value="<%=product._id%>">
+                                <button type="submit" class="btn btn-success" value="เพิ่มลงตะกร้า">
+                                    <span style="margin-right:10px" class="glyphicon glyphicon-shopping-cart"
+                                        aria-hidden="true"><i class="fa fa-shopping-cart">
+                                            เพิ่มลงตะกร้า</i></span></button>
+                            </div>
+                            <div class="section" style="padding-bottom:20px;">
+                                <button type="button" class="btn btn-success btn-lg text-uppercases"
+                                    data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม">
+                                    <a href="#des" target="_parent" rel="noopener noreferrer">
+                                        <span style="margin-right:10px" class="glyphicon glyphicon-shopping-cart"
+                                            aria-hidden="true"> รายละเอียดเพิ่มเติม</span>
+                                    </a>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="col-xs-9">
+                            <div style="width:100%;border-top:1px solid silver">
+                                <p class="card-text" id="des"><%-product.description%></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

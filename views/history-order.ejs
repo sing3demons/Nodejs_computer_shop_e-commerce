@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>history order</title>
+</head>
+
+<body>
+  <%- include layout %>
+
+  <% if(locals.user) { %>
+  <div class="container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">เลขที่สินค้า</th>
+          <th scope="col">ชื่อ</th>
+          <th scope="col">วันที่</th>
+          <th scope="col">ราคา</th>
+          <th scope="col">สถานะ</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach((order) => { %>
+        <tr>
+          <th scope="row"><a id="test" href="/shop/confirmPayment/<%= order._id %>" data-toggle="tooltip"  title="แจ้งชำระสินค้า" ><%= order._id %></a> </th>
+          <td><%= order.fullName %> </td>
+          <td><%= order.createdAt.toDateString() %> </td>
+          <td> ฿ <%= formatNumber(order.displayCart.total)%> </td>
+          <td><%= order.status %> </td>
+          <td><a href="/shop/invoice/<%= order._id %>">view</a></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    $(document).ready(() => {
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+    </script>
+  <% } %>
+</body>
+</html>

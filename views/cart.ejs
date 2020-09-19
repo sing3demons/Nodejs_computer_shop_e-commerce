@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <%- include layout %>
+  <div class="container my-4">
+    <% if (cart.item.length > 0) { %>
+    <h3>ตะกร้าสินค้า</h3>
+    <table class="table my-3">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">รหัสสินค้า</th>
+          <th scope="col">ชื่อสินค้า</th>
+          <th scope="col">จำนวน</th>
+          <th scope="col">ราคา</th>
+          <th scope="col">รวม</th>
+          <th><a href="/shop/allDestroy"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button></a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cart.item.forEach((product) => { %>
+        <tr>
+          <td>
+            <a href="/shop/showDetail/<%= product.item %>"><%= product.item %></a>
+          </td>
+          <th><%= product.title %></th>
+          <td><input type="text" name="" id="" class="text-center" value="<%= product.qty %>"></td>
+          <td><%= formatNumber(product.price) %></td>
+          <th><%= formatNumber(product.price * product.qty) %></th>
+          <td class="text-right"><a id="productId" href="/shop/destroy/<%= product.item %>">
+            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button></a> </td>
+        </tr>
+        <%})%>
+      </tbody>
+    </table>
+    <h2 align="right">ยอดชำระเงิน : <%= formatNumber(cart.total) %></h2>
+    <!-- <form class="form-group" action="/payment" method="post">
+      <script src="http://checkout.stripe.com/checkout.js" class="stripe-button" data-name="KP Shop"
+        data-key="pk_test_H33TjvdCoOI8v4dmW4GHk6S900WSGkWmqU" data-description="KPS Shop IT"
+        data-amount="<%= cart.total*100 %>" data-currency="thb"></script>
+      <input type="hidden" name="amount" value="<%= cart.total*100 %>">
+    </form> -->
+    <form class="form-group" action="/shop/payment" method="post">
+      <input type="hidden" name="amount" value="<%= cart.total*100 %>">
+      <input type="submit" value="ชำระสินค้า">
+    </form>
+    <% } else { %>
+    <div class="alert alert-danger">
+      ไม่มีสินค้าในตะกร้า
+    </div>
+    <% } %>
+  </div>
+</body>
+
+</html>

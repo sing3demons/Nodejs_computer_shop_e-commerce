@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+</head>
+
+<body>
+    <%- include layout %>
+    <% if (locals.user) { %>
+    <div class="container my-4">
+        <form action="/shop/checkout" method="post">
+            <% if (cart.item.length > 0) { %>
+            <h3>ตะกร้าสินค้า</h3>
+            <table class="table my-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">รหัสสินค้า</th>
+                        <th scope="col">ชื่อสินค้า</th>
+                        <th scope="col">จำนวน</th>
+                        <th scope="col">ราคา</th>
+                        <th scope="col">รวม</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% cart.item.forEach((product) => { %>
+                    <tr>
+                        <td>
+                            <%= product.item %>
+                        </td>
+                        <th><%= product.title %></th>
+                        <td><input type="text" name="" id="" class="text-center" value="<%= product.qty %>"></td>
+                        <td><%= formatNumber(product.price) %></td>
+                        <th><%= formatNumber(product.price * product.qty) %></th>
+                    </tr>
+                    <%})%>
+                </tbody>
+            </table>
+
+            <fieldset class="text-center ">
+                <legend>รูปแบบการจัดส่ง</legend>
+                <select name="express" id="">
+                    <option value="basic">ส่งแบบธรรมดา 50บาท</option>
+                    <option value="ems">ส่งแบบEMS 100บาท</option>
+                </select>
+                <hr>
+            </fieldset>
+
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="email">E-mail</label>
+                </div>
+                <div class="input-group-addon" style="width: 2.6rem"></div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input type="text" name="email" class="form-control" id="email" placeholder=""
+                                value="<%= user.email %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="fullName">ชื่อ-สกุล</label>
+                </div>
+                <div class="input-group-addon" style="width: 2.6rem"></div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input type="text" name="fullName" class="form-control" id="fullName" placeholder=""
+                                value="<%= user.fullName %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="numberPhone">เบอร์โทรศัพท์</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                            <input type="text" name="numberPhone" class="form-control" id="numberPhone"
+                                value="<%= user.numberPhone %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="addressInput">ที่อยู่</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                            <input type="text" name="addressInput" class="form-control" id="addressInput"
+                                value="<%= user.addressInput %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="subdistrict">ตำบล</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                            <input type="text" name="subdistrict" class="form-control" id="subdistrict"
+                                value="<%= user.subdistrict %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="district">อำเภอ</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                            <input type="text" name="district" class="form-control" id="district"
+                                value="<%= user.district %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="province">จังหวัด</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                            <input type="text" name="province" class="form-control" id="province"
+                                value="<%= user.province %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="postal_code">รหัสไปรษณี</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"></div>
+                            <input type="text" name="postal_code" class="form-control" id="postal_code"
+                                value="<%= user.postal_code %>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="amount" value="<%= cart.total*100 %>">
+            <input type="submit" value="ชำระสินค้า">
+        </form>
+        <form class="form-group" action="/shop/payment" method="post">
+            <input type="hidden" name="amount" value="<%= cart.total*100 %>">
+            <input type="submit" value="reload">
+        </form>
+        <% } %>
+    </div>
+    <% } else { %>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-11 col-md-5 mt-5 mx-auto card text-center">
+                <br>
+                <%- messages() %>
+                <div id="messages">
+                    <% Object.keys(messages).forEach(function (type) { %>
+                    <ul class="<%= type %>">
+                        <% messages[type].forEach(function (message) { %>
+                        <li><%= message %></li>
+                        <% }) %>
+                    </ul>
+                    <% }) %>
+                </div>
+                <% if (locals.errors){ %>
+                <ul class="alert alert-danger">
+                    <% Object.values(errors).forEach((error) =>{%>
+                    <li>
+                        <%= error.msg %>
+                    </li>
+                    <% })  %>
+                </ul>
+                <% } %>
+                <article class="card-body">
+                    <h3 class="card-title text-center mb-4 mt-1">Login</h3>
+                    <hr>
+                    <div class="alert alert-primary text-center">กรุณาล็อคอินเข้าสู่ระบบ</div>
+                    <form method="post" action="/users/login">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                                </div>
+                                <input name="email" class="form-control" placeholder="Email or login" type="email">
+                            </div> <!-- input-group.// -->
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                                </div>
+                                <input class="form-control" name="password" placeholder="******" type="password">
+                            </div> <!-- input-group.// -->
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"> Login </button>
+                        </div> <!-- form-group// -->
+                        <p class="text-center"><a href="#" class="btn">Forgot password?</a></p>
+                    </form>
+                </article>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include layout %>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include sidebar %>
+            <div class="container">
+                <form action="" method="post">
+                    <div class="col-12 col-md-12 mt-5 mx-auto card text-left">
+                        <article class="card-body">
+                            <div class="form-group row">
+                                <label for="example-number-input" class="col-2 col-form-label">รหัสสินค้า</label>
+                                <div class="col-10">
+                                    <input class="form-control" type="text" value="" id="example-number-input">
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-12 col-md-12 mx-auto card text-left">
+                        <article class="card-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                                    value="option1" checked>
+                                <label class="form-check-label" for="exampleRadios1">
+                                    ธนาคาร : ไทยพาณิช บัญชี : คำนึง พันธ์ทอง เลขที่บัญชี : xxxxxxxxx สาขา : กรุงเทพ
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                                    value="option2">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    ธนาคาร : ไทยพาณิช บัญชี : วรไกร กุญชนะรงค์ เลขที่บัญชี : xxxxxxxxx สาขา : กรุงเทพ
+                                </label>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="col-12 col-md-12  mx-auto card text-left">
+                        <article class="card-body">
+
+                            <div class="form-group row">
+                                <label for="example-number-input" class="col-2 col-form-label">จำนวนเงินที่โอน</label>
+                                <div class="col-10">
+                                    <input class="form-control" type="number" value="" id="example-number-input">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                                <div class="col-10">
+                                    <input class="form-control" type="date" value="" id="example-date-input">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="example-time-input" class="col-2 col-form-label">Time</label>
+                                <div class="col-10">
+                                    <input class="form-control" type="time" value="" id="example-time-input">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleFormControlFile1">file input</label>
+                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">รายละเอียดเพิ่มเติม</label>
+                                <textarea name="description" id="" cols="100" rows="4" class="form-control"></textarea>
+                            </div>
+                        </article>
+                    </div>
+
+                    <button type="button" class="btn btn-success mt-2 btn-lg btn-block">ยืนยัน</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

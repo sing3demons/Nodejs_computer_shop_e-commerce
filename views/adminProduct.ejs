@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Admin Management</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <%- include layout %>
+  <% include Admin/header %>
+  <div class="container-fluid">
+    <div class="row">
+      <%- include Admin/dashboard %>
+      <div class="col">
+        <h1 class="my-4 text-center"><u>Admin Management</u></h1>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">รหัสสินค้า</th>
+              <th scope="col">ชื่อสินค้า</th>
+              <th scope="col">รายละเอียด</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach( (product) => { %>
+            <tr>
+              <th scope="row"><a href="/shop/showDetail/<%=product._id%>"><%= product.id %></a></th>
+              <th scope="row"><%= product.name %></th>
+              <th scope="row"><%- descriptionText(product.description, 90) %></td>
+              <td>
+                <a href="/shop/adminProduct/edit/<%=product._id %>" class="btn btn-primary">Edit</a>
+              </td>
+              <td>
+                <form action="/shop/adminProduct/delete/<%=product._id %>" method="post" class="delete-project">
+                  <input type="hidden" name="id" value="<%=product._id %>">
+                  <input type="submit" class="btn btn-danger" value="Delete">
+                  </a>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(() => {
+      $('.delete-project').on('submit', () => {
+        if (confirm('คุณต้องการลบข้อมลหรือไม่ ?')) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>

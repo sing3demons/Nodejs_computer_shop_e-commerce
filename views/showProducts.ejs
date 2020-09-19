@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>kps</title>
+</head>
+
+<body>
+  <%- include layout %>
+
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <%- include sidebar %>
+
+
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+
+          <div class="row my-4">
+
+            <% products.forEach((product) => {%>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+                <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <img
+                    class="card-img-top" src="/images/<%= product.photo %>" alt=""> </a>
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม">
+                      <%= product.name %> </a>
+                  </h4>
+                  <h5> ฿ <%= formatNumber(product.price) %> </h5>
+
+                </div>
+                <div class="card-footer">
+                  <a href="" class="btn btn-success">เพิ่มลงตระกร้า</a>
+                </div>
+              </div>
+            </div>
+
+            <% })  %>
+
+          </div>
+          <!-- /.row -->
+
+        </div>
+        <!-- /.col-lg-9 -->
+
+        <% if(products.length == 0){ %>
+        <div class="row-my-4">
+          <div class="alert alert-danger">
+            ไม่พบสินค้าในหมวดหมู่นี้
+          </div>
+        </div>
+        <% } %>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+    <script>
+      $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+</body>
+
+</html>

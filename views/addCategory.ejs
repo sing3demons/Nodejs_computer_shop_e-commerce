@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>เพิ่มหมวดหมู่สินค้า</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+    <%- include layout %>
+    <% include Admin/header %> 
+    <div class="container-fluid">
+        <div class="row">
+            <%- include Admin/dashboard %>
+            <div class="col">
+                <div class="col-lg-12 my-4">
+                    <h1>แบบฟอร์มเพิ่มหมวดหมู่สินค้า</h1>
+                    <% if(locals.errors){ %>
+                    <ul class="alert alert-danger">
+                        <% Object.values(errors).forEach((error) => {%>
+                        <li>
+                            <%= error.msg%>
+                        </li>
+                        <% }) %>
+                    </ul>
+                    <% } %>
+                    <form action="/category/add" method="post">
+                        <div class="form-group">
+                            <label for="">หมวดหมู่สินค้า</label>
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                        <input type="submit" class="btn btn-success" value="บันทึกหมวดหมู่">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

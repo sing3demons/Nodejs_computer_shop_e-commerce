@@ -1,0 +1,110 @@
+<%- include header %>
+<!-- header -->
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">
+            <i class="fa fa-home"></i>
+            Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/shop/historyOrder">รายการสินค้าที่สั่งซื้อ</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/shop/confirmPayment">แจ้งชำระสินค้า</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        <div class="collapse navbar-collapse">
+          <li class="nav-item">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                placeholder="Search...">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-secondary btn-number">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+        </div>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="/shop/cart">
+              <i class="fa fa-shopping-cart"> My cart</i>
+              <span class="badge badge-light"></span>
+            </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        <% if(locals.user) { %>
+        <li class="nav-item dropdown">
+          <div class="">
+            <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-user" aria-hidden="true"> <%= user.name%></i>
+            </a>
+            <% } %>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <% if(!locals.user){ %>
+              <a class="dropdown-item" href="/users/register">
+                <i class="fa fa-user-plus"> Register </i>
+              </a>
+              <a class="dropdown-item" href="/users/login">
+                <i class="fa fa-lock"> Login</i>
+              </a>
+              <% } %>
+              <% if(locals.user) { %>
+              <a class="dropdown-item" href="/users/edituser">
+                แก้ไขข้อมูล
+              </a>
+              <% if (user.role === 'admin') { %>
+              <a class="dropdown-item" href="/users/admin">
+                เมนูแอดมิน
+              </a>
+              <% } %>
+              <a class="dropdown-item" href="/users/logout">
+                <i class="fa fa-lock"> Logout</i>
+              </a>
+              <% } %>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        <% if(!locals.user) { %>
+        <li class="nav-item dropdown">
+          <div class="">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-user" aria-hidden="true"> User Management</i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/users/register">
+                <i class="fa fa-user-plus"> Register </i>
+              </a>
+              <a class="dropdown-item" href="/users/login">
+                <i class="fa fa-lock"> Login</i>
+              </a>
+              <% } %>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</body>

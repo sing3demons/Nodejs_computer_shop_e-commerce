@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+</head>
+
+<body>
+    <%- include layout %>
+
+    <div class="container my-4">
+        <div class="row">
+   
+            
+
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">รหัสสินค้า</th>
+                                    <th scope="col">ชื่อสินค้า</th>
+                                    <th scope="col">email: </th>
+                                    <th scope="col">ที่อยู่: </th>
+                                    <th scope="col">เบอร์โทร</th>
+                                    <th scope="col">ราคา</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% orders.forEach((order) => { %>
+                                <% var i = 0  %>
+                                <tr>
+                                    <th scope="row"><%= order.id %></th>
+                                    <th scope="row">
+                                        <% order.displayCart.item.forEach((porduct) => { %>
+                                        --> <%= porduct.title %> จำนวน: <%= porduct.qty %> <br>
+                                        <% }) %> 
+                                    </th>
+                                        
+                                    
+                                    <th scope="row"><%= order.email %></th>
+                                    <td> <%= order.fullName %>,
+                                        <%= order.addressInput %>,
+                                        <%= order.subdistrict %>,
+                                        <%= order.district %>,
+                                        <%= order.province %>,
+                                        <%= order.postal_code %></td>
+                                    <td>
+                                        <%= order.numberPhone %>
+                                    </td>
+                                    <td><%= order.displayCart.total %> </td>
+
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+        </div>
+    </div>
+</body>
+
+</html>

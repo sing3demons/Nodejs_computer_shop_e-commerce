@@ -19,23 +19,21 @@
           <div class="row my-4">
             <% products.forEach((product) => { %>
             <div class="col-lg-4 col-md-6 mb-4">
-
-           <div class="container">
-            <div class="card h-100">
-              <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <img class="card-img-top" src="/images/<%= product.photo %>" alt=""> </a>
-              <div class="card-footer">
-                <h class="card-title">
-                  <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <%= product.name %> </a>
-                </h>
-                <h5> ราคา <%= formatNumber(product.price) %> บาท</h5>
-                <form class="form-group" action="/shop/cart/" method="post">
-                  <input type="hidden" name="product_id" value="<%=product._id%>">
-                  <input type="submit" name="" value="เพิ่มลงตะกร้า" class="btn btn-success">
-                </form>
+              <div class="container">
+                <div class="card h-100">
+                  <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <img class="card-img-top" src="/images/<%= product.photo %>" alt=""> </a>
+                  <div class="card-footer">
+                    <h class="card-title">
+                      <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <%= product.name %> </a>
+                    </h>
+                    <h5> ราคา <%= formatNumber(product.price) %> บาท</h5>
+                    <form class="form-group" action="/shop/cart/" method="post">
+                      <input type="hidden" name="product_id" value="<%=product._id%>">
+                      <input type="submit" name="" value="เพิ่มลงตะกร้า" class="btn btn-success">
+                    </form>
+                  </div>
+                </div>
               </div>
-            </div>
-           </div>
-
             </div>
             <% })  %>
 

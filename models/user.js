@@ -6,31 +6,31 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     email: { type: String, unique: true, lowercase: true },
     password: String,
-    name: {type: String, unique: true},
-    role: {type: String, enum: ['member', 'admin'], default: "member"},
+    name: { type: String, unique: true },
+    role: { type: String, enum: ['member', 'admin'], default: "member" },
     fullName: { type: String },
     numberPhone: { type: String },
-    addressInput: {type: String},
+    addressInput: { type: String },
     subdistrict: { type: String },
     district: { type: String },
     province: { type: String },
     postal_code: { type: Number },
-    resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date }
 }, { timestamps: true });
 
-userSchema.statics.generateHash = function(password) {
+userSchema.statics.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-userSchema.methods.validPassword = function(password) {
+userSchema.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-userSchema.methods.isMember = function() {
+userSchema.methods.isMember = function () {
     return (this.role === "member");
 };
-userSchema.methods.isAuthor = function() {
+userSchema.methods.isAuthor = function () {
     return (this.role === "admin");
 };
 

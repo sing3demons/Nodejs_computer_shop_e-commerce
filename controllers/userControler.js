@@ -100,7 +100,7 @@ exports.forgotPassword =  (req, res, next) => {
           subject: 'Node.js Password Reset',
           text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-            'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+            'http://' + req.headers.host + '/users/reset/' + token + '\n\n' +
             'If you did not request this, please ignore this email and your password will remain unchanged.\n'
         };
         smtpTransport.sendMail(mailOptions, function(err) {
@@ -120,13 +120,12 @@ exports.forgotPassword =  (req, res, next) => {
 
 /*@GET /users/reset */
 exports.getResetPassword = (req, res, next) => {
-//
 User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
   if (!user) {
     req.flash('error', 'Password reset token is invalid or has expired.');
     return res.redirect('/users/forgot');
   }
-  res.render('reset', {token: req.params.token});
+  res.render('reset-password', {token: req.params.token});
 });
 }
 

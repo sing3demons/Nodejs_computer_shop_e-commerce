@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     email: { type: String, unique: true, lowercase: true },
     password: String,
-    name: { type: String, unique: true },
+    name: { type: String, required: true },
     role: { type: String, enum: ['member', 'admin'], default: "member" },
     fullName: { type: String },
     numberPhone: { type: String },
@@ -19,13 +19,27 @@ const userSchema = new Schema({
     resetPasswordExpires: { type: Date }
 }, { timestamps: true });
 
-userSchema.statics.generateHash = function (password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
+/*สร้าง method mongoose */
+// hash a password
+userSchema.methods.encryptPassword = async (password) => {
+    const salt = await bcrypt.genSalt(8);
+    const hashPassword = await bcrypt.hash(password, salt);
+    return hashPassword;
+}
+// userSchema.statics.generateHash = function (password) {
+//     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+// };
 
-userSchema.methods.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.password);
-};
+//check a password
+// - this.password คือ password ที่ hash แล้ว
+userSchema.methods.checkPassword = async function (password) {
+    const isValid = await bcrypt.compare(password, this.password);
+    return isValid;
+}
+
+// userSchema.methods.validPassword = async function (password) {
+//     return bcrypt.compareSync(password, this.password);
+// };
 
 userSchema.methods.isMember = function () {
     return (this.role === "member");

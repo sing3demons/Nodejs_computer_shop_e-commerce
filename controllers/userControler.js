@@ -1,9 +1,9 @@
 const User = require('../models/user');
 const { validationResult } = require('express-validator');
 const Config = require("../config/index");
-var async = require("async");
-var nodemailer = require("nodemailer");
-var crypto = require("crypto");
+const async = require("async");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 
 //@GET register
 exports.index = (req, res, next) => {
@@ -11,7 +11,7 @@ exports.index = (req, res, next) => {
 }
 
 //@POST register
-exports.register = (req, res, next) => {
+exports.register = async (req, res, next) => {
   const result = validationResult(req);
   const errors = result.errors;
   //Validation Data
@@ -24,29 +24,53 @@ exports.register = (req, res, next) => {
     //Insert  Data
     const { name, password, email, fullName, numberPhone,
       addressInput, subdistrict, district, province, postal_code } = req.body;
-    const newUser = new User({
-      name: name,
-      password: password,
-      email: email,
-      fullName: fullName,
-      numberPhone: numberPhone,
-      addressInput: addressInput,
-      subdistrict: subdistrict,
-      district: district,
-      province: province,
-      postal_code: postal_code
-    });
-    newUser.save();
-    console.log(newUser);
+
+    let user = new User();
+      user.name = name;
+      user.password = await user.encryptPassword(password);
+      user.email = email;
+      user.fullName = fullName;
+      user.numberPhone = numberPhone;
+      user.addressInput = addressInput;
+      user.subdistrict = subdistrict;
+      user.district = district;
+      user.province = province;
+      user.postal_code = postal_code;
+    
+    await user.save();
+    console.log(user);
     res.location('/users/login');
     res.redirect('/users/login');
   }
 }
 
 //@POST Login
-exports.getLogin = (req, res) => {
-  // req.flash("", "ลงชื่อเข้าใช้เรียบร้อยแล้ว");
-  res.redirect('/');
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    //check ว่ามีอีเมล์นี้ไม่ระบบหรือไม่
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      const error = new Error('ไม่พบผู้ใช้งานในระบบ');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    //ตรวจสอบรหัสผ่านว่าตรงกันหรือไม่ ถ้าไม่ตรง (false) ให้โยน error ออกไป
+    const isValid = await user.checkPassword(password);
+    if (!isValid) {
+      const error = new Error('รหัสผ่านไม่ถูกต้อง');
+      error.statusCode = 401;
+      throw error;
+    }
+
+    // req.flash("", "ลงชื่อเข้าใช้เรียบร้อยแล้ว");
+    res.redirect('/');
+
+  } catch (error) {
+    next(error);
+  }
 }
 
 exports.getUpdateUser =async (req, res, next) => {

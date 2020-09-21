@@ -5,7 +5,7 @@ const Category = require('../models/category');
 const router = express.Router()
 
 
-const enSureAuthenticated = (req, res, next) => {
+const checkSureAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     } else {
@@ -15,7 +15,7 @@ const enSureAuthenticated = (req, res, next) => {
 }
 
 /* GET home page. */
-router.get('/', enSureAuthenticated, async (req, res, next) => {
+router.get('/', [checkSureAuthenticated], async (req, res, next) => {
     const product = await Shop.find();
     const category = await Category.find();
     res.render('index', { categories: category, products: product})

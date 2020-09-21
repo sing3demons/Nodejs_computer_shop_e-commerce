@@ -23,7 +23,8 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login');
 });
 
-router.post('/login' , passport.isLogin, userController.getLogin);
+/*@POST /users/login */
+router.post('/login' , [passport.isLogin], userController.login);
 
 /*@GET /users/forgot */
 router.get('/forgot', userController.getForgotPassword)

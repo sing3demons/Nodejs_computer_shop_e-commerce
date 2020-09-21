@@ -16,10 +16,6 @@ module.exports = (passport) => {
                 return done(new Error('ไม่พบบัญชีผู้ใช้นี้'), null);
             } 
 
-            if (!user.checkPassword(password)) 
-            { return done(new Error('ไม่พบรหัสผู้ใช้นี้'), null); }
-
-
             return done(null, user);
 
         } catch (error) {

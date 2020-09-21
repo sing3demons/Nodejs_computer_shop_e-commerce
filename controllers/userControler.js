@@ -61,6 +61,8 @@ exports.login = async (req, res, next) => {
     const isValid = await user.checkPassword(password);
     if (!isValid) {
       const error = new Error('รหัสผ่านไม่ถูกต้อง');
+      // req.logout()
+      req.session.destroy();
       error.statusCode = 401;
       throw error;
     }

@@ -1,5 +1,7 @@
 const User = require('../models/user');
-const { validationResult } = require('express-validator');
+const {
+  validationResult
+} = require('express-validator');
 const Config = require("../config/index");
 const async = require("async");
 const nodemailer = require("nodemailer");
@@ -22,21 +24,31 @@ exports.register = async (req, res, next) => {
     })
   } else {
     //Insert  Data
-    const { name, password, email, fullName, numberPhone,
-      addressInput, subdistrict, district, province, postal_code } = req.body;
+    const {
+      name,
+      password,
+      email,
+      fullName,
+      numberPhone,
+      addressInput,
+      subdistrict,
+      district,
+      province,
+      postal_code
+    } = req.body;
 
     let user = new User();
-      user.name = name;
-      user.password = await user.encryptPassword(password);
-      user.email = email;
-      user.fullName = fullName;
-      user.numberPhone = numberPhone;
-      user.addressInput = addressInput;
-      user.subdistrict = subdistrict;
-      user.district = district;
-      user.province = province;
-      user.postal_code = postal_code;
-    
+    user.name = name;
+    user.password = await user.encryptPassword(password);
+    user.email = email;
+    user.fullName = fullName;
+    user.numberPhone = numberPhone;
+    user.addressInput = addressInput;
+    user.subdistrict = subdistrict;
+    user.district = district;
+    user.province = province;
+    user.postal_code = postal_code;
+
     await user.save();
     console.log(user);
     res.location('/users/login');
@@ -47,10 +59,15 @@ exports.register = async (req, res, next) => {
 //@POST Login
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const {
+      email,
+      password
+    } = req.body;
 
     //check ว่ามีอีเมล์นี้ไม่ระบบหรือไม่
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({
+      email: email
+    });
     if (!user) {
       const error = new Error('ไม่พบผู้ใช้งานในระบบ');
       error.statusCode = 404;
@@ -75,8 +92,10 @@ exports.login = async (req, res, next) => {
   }
 }
 
-exports.getUpdateUser =async (req, res, next) => {
-  const {id} = req.body;
+exports.getUpdateUser = async (req, res, next) => {
+  const {
+    id
+  } = req.body;
   const user = await User.findById(id)
   console.log(user);
   res.render('editUser');
@@ -88,33 +107,35 @@ exports.getForgotPassword = async (req, res, next) => {
 }
 
 /*@POST /users/forgot */
-exports.forgotPassword =  (req, res, next) => {
+exports.forgotPassword = (req, res, next) => {
   try {
     async.waterfall([
-      function(done) {
-        crypto.randomBytes(20, function(err, buf) {
+      function (done) {
+        crypto.randomBytes(20, function (err, buf) {
           var token = buf.toString('hex');
           done(err, token);
         });
       },
-      function(token, done) {
-        User.findOne({ email: req.body.email }, function(err, user) {
+      function (token, done) {
+        User.findOne({
+          email: req.body.email
+        }, function (err, user) {
           if (!user) {
             req.flash('error', 'No account with that email address exists.');
             return res.redirect('/forgot');
           }
-  
+
           user.resetPasswordToken = token;
           user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-  
-          user.save(function(err) {
+
+          user.save(function (err) {
             done(err, token, user);
           });
         });
       },
-      function(token, user, done) {
+      function (token, user, done) {
         var smtpTransport = nodemailer.createTransport({
-          service: 'Gmail', 
+          service: 'Gmail',
           auth: {
             user: Config.GMAIL,
             pass: Config.GMAILPW
@@ -129,13 +150,13 @@ exports.forgotPassword =  (req, res, next) => {
             'http://' + req.headers.host + '/users/reset/' + token + '\n\n' +
             'If you did not request this, please ignore this email and your password will remain unchanged.\n'
         };
-        smtpTransport.sendMail(mailOptions, function(err) {
+        smtpTransport.sendMail(mailOptions, function (err) {
           console.log('mail sent');
           req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
           done(err, 'done');
         });
       }
-    ], function(err) {
+    ], function (err) {
       if (err) return next(err);
       res.redirect('/users/forgot');
     });
@@ -146,78 +167,104 @@ exports.forgotPassword =  (req, res, next) => {
 
 /*@GET /users/reset */
 exports.getResetPassword = (req, res, next) => {
-User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-  if (!user) {
-    req.flash('error', 'Password reset token is invalid or has expired.');
-    return res.redirect('/users/forgot');
-  }
-  res.render('reset-password', {token: req.params.token});
-});
+  User.findOne({
+    resetPasswordToken: req.params.token,
+    resetPasswordExpires: {
+      $gt: Date.now()
+    }
+  }, function (err, user) {
+    if (!user) {
+      req.flash('error', 'Password reset token is invalid or has expired.');
+      return res.redirect('/users/forgot');
+    }
+    res.render('reset-password', {
+      token: req.params.token
+    });
+  });
 }
 
 /*@POST /users/reset */
 exports.resetPassword = (req, res, next) => {
   async.waterfall([
-    function(done) {
-      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-        if (!user) {
-          req.flash('error', 'Password reset token is invalid or has expired.');
-          return res.redirect('back');
-        }
-        if(req.body.password === req.body.confirm) {
-          user.setPassword(req.body.password, function(err) {
+    function (done) {
+        User.findOne({
+          resetPasswordToken: req.params.token,
+          resetPasswordExpires: {
+            $gt: Date.now()
+          }
+        }, async function (err, user) {
+          if (!user) {
+            req.flash('error', 'Password reset token is invalid or has expired.');
+            return res.redirect('/');
+          }
+
+
+          if (req.body.password === req.body.confirm) {
+            user.password = await user.encryptPassword(req.body.password);
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
 
-            user.save(function(err) {
-              req.logIn(user, function(err) {
+            await user.save(function (err) {
+              req.logIn(user, function (err) {
                 done(err, user);
-              });
+              })
             });
-          })
-        } else {
+          } else {
             req.flash("error", "Passwords do not match.");
-            return res.redirect('back');
-        }
-      });
-    },
-    function(user, done) {
-      var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
-        auth: {
-          user: Config.GMAIL,
-          pass: Config.GMAILPW
-        }
-      });
-      var mailOptions = {
-        to: user.email,
-        from: Config.GMAIL,
-        subject: 'Your password has been changed',
-        text: 'Hello,\n\n' +
-          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-      };
-      smtpTransport.sendMail(mailOptions, function(err) {
-        req.flash('success', 'Success! Your password has been changed.');
-        done(err);
-      });
-    }
-  ], function(err) {
-    res.redirect('/campgrounds');
+            console.log(error);
+            return res.redirect('/');
+          }
+        });
+      },
+      function (user, done) {
+        var smtpTransport = nodemailer.createTransport({
+          service: 'Gmail',
+          auth: {
+            user: Config.GMAIL,
+            pass: Config.GMAILPW
+          }
+        });
+        var mailOptions = {
+          to: user.email,
+          from: Config.GMAIL,
+          subject: 'Your password has been changed',
+          text: 'Hello,\n\n' +
+            'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+        };
+        smtpTransport.sendMail(mailOptions, function (err) {
+          req.flash('success', 'Success! Your password has been changed.');
+          done(err);
+        });
+      }
+  ], function (err) {
+    console.log(err);
+    res.redirect('/');
   });
 }
 
 exports.updateUser = async (req, res, next) => {
-  const {id, username, email, fullName, numberPhone, addressInput, subdistrict, district, province, postal_code} = req.body;
+  const {
+    id,
+    username,
+    email,
+    fullName,
+    numberPhone,
+    addressInput,
+    subdistrict,
+    district,
+    province,
+    postal_code
+  } = req.body;
   const user = await User.findById(id);
   user.name = username,
-  user.email = email,
-  user.fullName = fullName,
-  user.numberPhone = numberPhone,
-  user.addressInput = addressInput,
-  user.subdistrict = subdistrict,
-  user.district = district,
-  user.province = province,
-  user.postal_code = postal_code
+    user.email = email,
+    user.fullName = fullName,
+    user.numberPhone = numberPhone,
+    user.addressInput = addressInput,
+    user.subdistrict = subdistrict,
+    user.district = district,
+    user.province = province,
+    user.postal_code = postal_code
   await user.save()
   console.log(user);
   res.redirect('/')
@@ -226,24 +273,30 @@ exports.updateUser = async (req, res, next) => {
 /* @GET Admin users/admin */
 exports.admin = async (req, res, next) => {
   const user = await User.find();
-  res.render('admin', {users: user})
+  res.render('admin', {
+    users: user
+  })
 }
 
 /* @GET Admin users/admin/admin-user */
 exports.getAdminManagementUser = async (req, res, next) => {
   const role = 'member'
   const user = await User.find().where('role').eq(role);
-    // res.status(200).json({
+  // res.status(200).json({
   //   user
   // })
-  res.render('admin-user', {users: user})
+  res.render('admin-user', {
+    users: user
+  })
 }
 
 /* @POST Admin users/admin/admin-user */
 exports.adminManagementUserAndDelete = async (req, res, next) => {
-  const {id} = req.body;
+  const {
+    id
+  } = req.body;
   const user = await User.findByIdAndDelete(id)
-    // res.status(200).json({
+  // res.status(200).json({
   //   user
   // })
   console.log(id);

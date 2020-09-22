@@ -76,6 +76,9 @@
                             </div>
                         </article>
                     </div>
+                    <% if (locals.user) { %> 
+                        <input type="hidden" name="userEmail" value="<%= user.email %> ">
+                    <% } %> 
 
                     <button type="button" class="btn btn-success mt-2 btn-lg btn-block">ยืนยัน</button>
                 </form>

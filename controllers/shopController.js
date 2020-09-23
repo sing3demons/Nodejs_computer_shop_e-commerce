@@ -147,19 +147,17 @@ exports.cart = async (req, res, next) => {
         cart[productId].qty++;
       } else {
         //ซื้อครั้งแรก
-        for (var shop in product) {
+        for (let shop in product) {
           cart[productId] = {
             item: product._id,
             title: product.name,
             price: product.price,
             qty: 1,
           };
-        }
+        }  
       }
-      // console.log(displayCartQty);
-      // res.render('cart', { cart: cart})
-      res.redirect("/shop/cart");
     });
+     res.redirect("/shop/cart");
   } catch (error) {
     console.log(error);
   }
@@ -283,8 +281,10 @@ exports.adminEdit = async (req, res, next) => {
 
 /*POST /shop/payment*/
 exports.payment = async (req, res, next) => {
+  if (req.user) {
   const user = await User.findById();
   // const productId = req.body.product_id;
+
   req.session.cart = req.session.cart || {};
   const cart = req.session.cart;
   const displayCart = { item: [], total: 0 };
@@ -294,11 +294,10 @@ exports.payment = async (req, res, next) => {
     total += cart[item].qty * cart[item].price;
   }
   displayCart.total = total;
-  // res.status(200).json({
-  //   data: { displayCart },
-  // });
-
   res.render('checkout', { cart: displayCart });
+} else {
+  res.redirect('/users/login');
+}
 };
 
 exports.checkOut = async (req, res, next) => {
@@ -400,7 +399,7 @@ exports.historyOrder = async (req, res, next) => {
       orders: order
     });
   } else {
-    res.redirect('/users/login')
+    res.redirect('/users/login');
   }
 }
 
@@ -427,36 +426,29 @@ exports.confirm_payment = async (req, res, next) => {
     await payment.save();
 
     const order = await Order.findById(payment.pay_id);
-    console.log(order.status);
-
-    // res.status(200).json({
-    //   payment
-    // });
-
     //
     /*send mail*/
     //
-    // const smtpTransport = nodemailer.createTransport({
-    //   service: 'Gmail',
-    //   auth: {
-    //     user: Config.GMAIL,
-    //     pass: Config.GMAILPW
-    //   }
-    // });
-    // const mailOptions = {
-    //   to: Config.GMAIL,
-    //   from: req.body.userEmail,
-    //   subject: 'ยืนยันคำสั่งซื้อหมายเลข' + payment.pay_id,
-    //   text: 'รายละเอียด\n' + 'ธนาคาร = ' + payment.bank_name + '\nจำนวน = ' + payment.price_total + '\nเวลา = ' + payment.time_payment + '\nวันที่ = ' + payment.date_payment
-    // };
-    // smtpTransport.sendMail(mailOptions, function (err) {
-    //   console.log('mail sent');
-    //   if (err)
-    //     console.log(err)
-    //   else
-    //     console.log(info);
-
-    // });
+    const smtpTransport = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: Config.GMAIL,
+        pass: Config.GMAILPW
+      }
+    });
+    const mailOptions = {
+      to: Config.GMAIL,
+      from: req.body.userEmail,
+      subject: 'ยืนยันคำสั่งซื้อหมายเลข' + payment.pay_id,
+      text: 'รายละเอียด\n' + 'ธนาคาร = ' + payment.bank_name + '\nจำนวน = ' + payment.price_total + '\nเวลา = ' + payment.time_payment + '\nวันที่ = ' + payment.date_payment
+    };
+    smtpTransport.sendMail(mailOptions, function (err) {
+      console.log('mail sent');
+      if (err)
+        console.log(err)
+      else
+        console.log(info);
+    });
     order.status = 'กำลังตรวจสอบข้อมูล';
     await order.save();
     console.log(order.status);

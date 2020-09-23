@@ -95,11 +95,8 @@ exports.login = async (req, res, next) => {
 }
 
 exports.getUpdateUser = async (req, res, next) => {
-  const {
-    id
-  } = req.body;
-  const user = await User.findById(id)
-  console.log(user);
+  const { id } = req.body;
+  const user = await User.findById(id);
   res.render('editUser');
 }
 

@@ -24,22 +24,25 @@
           <a class="nav-link" href="/shop/confirmPayment">แจ้งชำระสินค้า</a>
         </li>
       </ul>
-
+<form action="/search" method="post">
       <ul class="navbar-nav">
         <div class="collapse navbar-collapse">
           <li class="nav-item">
             <div class="input-group input-group-sm">
-              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+              
+              <input type="text" name="search" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
                 placeholder="Search...">
               <div class="input-group-append">
-                <button type="button" class="btn btn-secondary btn-number">
+                <button type="submit" class="btn btn-secondary btn-number">
                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
               </div>
+          
             </div>
           </li>
         </div>
       </ul>
+      </form>  
       <ul class="navbar-nav">
         <li class="nav-item active">
             <a class="nav-link" href="/shop/cart">

@@ -31,7 +31,7 @@
           <td><%= order.createdAt.toDateString() %> </td>
           <td> ฿ <%= formatNumber(order.displayCart.total)%> </td>
           <td><%= order.status %> </td>
-         <% if (order.status = 'ยกเลิก') { %> 
+         <% if (order.status === 'ยกเลิก') { %> 
           <td></td>
          <% } else { %> 
           <td><a href="/shop/invoice/<%= order._id %>">view</a></td>

@@ -12,7 +12,9 @@ router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-/* POST */
+//
+// http://localhost:3000/users/register 
+//
 router.get('/register', userController.index);
 
 router.get('/login', (req, res, next) => {

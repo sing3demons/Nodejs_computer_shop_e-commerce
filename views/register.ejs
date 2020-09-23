@@ -15,7 +15,7 @@
                 <article class="card-body">
                     <% if (locals.errors) { %>
                     <ul class="alert alert-danger">
-                        <% Object.values(errors).forEach(function(error){ %>
+                        <% Object.values(errors).forEach((error) => { %>
                         <li><%= error.msg %></li>
                         <% }); %>
                     </ul>
@@ -26,14 +26,14 @@
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-6">
-                                    <h1 class="display-3">Register</h1>
+                                    <h3 class="display-4">Register</h3>
                                     <div class="alert alert-primary">กรอกข้อมูลเพื่อลงทะเบียนผู้ใช้</div>
                                     <hr>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3 field-label-responsive">
-                                    <label for="name">Name</label>
+                                    <label for="name">Nick Name</label>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -41,7 +41,7 @@
                                             <div class="input-group-addon" style="width: 2.6rem"><i
                                                     class="fa fa-user"></i></div>
                                             <input type="text" name="name" class="form-control" id="name"
-                                                placeholder="Your Name" autofocus>
+                                                placeholder="Nick Name" autofocus>
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +90,9 @@
                                     </div>
                                 </div>                                
                             </div>
-
+                        </article>
+                        <article class="card-body">
+                            <h3 class="display-5 my-3">ที่อยู่สำหรับจัดส่ง</h3>
                             <div class="row">
                                 <div class="col-md-3 field-label-responsive">
                                     <label for="fullName">ชื่อ-สกุล</label>
@@ -101,7 +103,7 @@
                                         <div class="input-group-addon" style="width: 2.6rem"></div>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">        
                                             <input type="text" name="fullName" class="form-control" id="fullName"
-                                                placeholder="">
+                                                placeholder="คำนึง พันธ์ทอง">
                                         </div>
                                     </div>
                                 </div>                                
@@ -116,7 +118,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0"> 
                                             <div class="input-group-addon" style="width: 2.6rem"></div>
                                             <input type="text" name="numberPhone" class="form-control" id="numberPhone"
-                                                placeholder="">
+                                                placeholder="0912345678">
                                         </div>
                                     </div>
                                 </div>                                
@@ -130,7 +132,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"></div>
                                             <input type="text" name="addressInput" class="form-control" id="addressInput"
-                                                placeholder="">
+                                                placeholder="ถนนจักรพรรดิ​พงษ์">
                                         </div>
                                     </div>
                                 </div>                                
@@ -144,7 +146,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"></div>
                                             <input type="text" name="subdistrict" class="form-control" id="subdistrict"
-                                                placeholder="">
+                                                placeholder="บ้านบาตร">
                                         </div>
                                     </div>
                                 </div>                                
@@ -158,7 +160,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"></div>
                                             <input type="text" name="district" class="form-control" id="district"
-                                                placeholder="">
+                                                placeholder="ป้อมปราบศัตรูพ่าย">
                                         </div>
                                     </div>
                                 </div>                                
@@ -172,7 +174,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"></div>
                                             <input type="text" name="province" class="form-control" id="province"
-                                                placeholder="">
+                                                placeholder="กรุงเทพมหานคร">
                                         </div>
                                     </div>
                                 </div>                                
@@ -186,7 +188,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon" style="width: 2.6rem"></div>
                                             <input type="text" name="postal_code" class="form-control" id="postal_code"
-                                                placeholder="">
+                                                placeholder="10100">
                                         </div>
                                     </div>
                                 </div>                                
@@ -202,6 +204,7 @@
                         </form>
                     </div>
                 </article>
+
             </div>
         </div>
     </div>

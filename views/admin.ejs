@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Admin</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
@@ -11,6 +12,16 @@
 <body>
     <% include layout %>
     <% include Admin/header %>
-    <%- include Admin/dashboard %>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <%- include Admin/dashboard %>
+            <div class="container col-9 col-md-9 mt-4">
+                <h1 class="text-center">ยินดีต้อนรับสู่ Admin menu</h1>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

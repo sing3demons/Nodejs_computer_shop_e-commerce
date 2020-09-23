@@ -426,6 +426,9 @@ exports.confirm_payment = async (req, res, next) => {
     });
     await payment.save();
 
+    const order = await Order.findById(payment.pay_id);
+    console.log(order.status);
+
     // res.status(200).json({
     //   payment
     // });
@@ -433,30 +436,31 @@ exports.confirm_payment = async (req, res, next) => {
     //
     /*send mail*/
     //
-    console.log(req.body.userEmail);
+    // const smtpTransport = nodemailer.createTransport({
+    //   service: 'Gmail',
+    //   auth: {
+    //     user: Config.GMAIL,
+    //     pass: Config.GMAILPW
+    //   }
+    // });
+    // const mailOptions = {
+    //   to: Config.GMAIL,
+    //   from: req.body.userEmail,
+    //   subject: 'ยืนยันคำสั่งซื้อหมายเลข' + payment.pay_id,
+    //   text: 'รายละเอียด\n' + 'ธนาคาร = ' + payment.bank_name + '\nจำนวน = ' + payment.price_total + '\nเวลา = ' + payment.time_payment + '\nวันที่ = ' + payment.date_payment
+    // };
+    // smtpTransport.sendMail(mailOptions, function (err) {
+    //   console.log('mail sent');
+    //   if (err)
+    //     console.log(err)
+    //   else
+    //     console.log(info);
 
-    const smtpTransport = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: Config.GMAIL,
-        pass: Config.GMAILPW
-      }
-    });
-    const mailOptions = {
-      to: Config.GMAIL,
-      from: req.body.userEmail,
-      subject: 'ยืนยันคำสั่งซื้อหมายเลข' + payment.pay_id,
-      text: 'รายละเอียด\n' + 'ธนาคาร = ' + payment.bank_name + '\nจำนวน = ' + payment.price_total + '\nเวลา = ' + payment.time_payment + '\nวันที่ = ' + payment.date_payment
-    };
-    smtpTransport.sendMail(mailOptions, function (err) {
-      console.log('mail sent');
-      if (err)
-        console.log(err)
-      else
-        console.log(info);
-
-    });
-    res.redirect('/');
+    // });
+    order.status = 'กำลังตรวจสอบข้อมูล';
+    await order.save();
+    console.log(order.status);
+    res.redirect('/shop/historyOrder');
   } catch (error) {
     console.log(error);
     res.send('ไม่สามารถทำรายการได้');

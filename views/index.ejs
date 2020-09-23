@@ -27,9 +27,9 @@
                       <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <%= product.name %> </a>
                     </h>
                     <h5> ราคา <%= formatNumber(product.price) %> บาท</h5>
-                    <form class="form-group" action="/shop/cart/" method="post">
+                    <form class="form-group text-center" action="/shop/cart/" method="post">
                       <input type="hidden" name="product_id" value="<%=product._id%>">
-                      <input type="submit" name="" value="เพิ่มลงตะกร้า" class="btn btn-success">
+                      <input type="submit" name="" value="ADD TO CART" class="btn btn-outline-success btn-block">
                     </form>
                   </div>
                 </div>

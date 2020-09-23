@@ -6,6 +6,7 @@ const Config = require("../config/index");
 const async = require("async");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const Order = require('../models/order');
 
 //@GET register
 exports.index = (req, res, next) => {
@@ -273,7 +274,7 @@ exports.admin = async (req, res, next) => {
   const user = await User.find();
   res.render('admin', {
     users: user
-  })
+  });
 }
 
 /* @GET Admin users/admin/admin-user */
@@ -299,4 +300,21 @@ exports.adminManagementUserAndDelete = async (req, res, next) => {
   // })
   console.log(id);
   res.redirect('users/admin/admin-user')
+}
+
+exports.getShopOrder = async (req, res, next) => {
+  const order = await Order.find();
+  res.render('Admin/history-order', {
+    orders: order
+  });
+}
+
+exports.shopOrder = async (req, res, next) => {
+  const {id} = req.params;
+  const {status} = req.body;
+  console.log(id + status);
+  const order = await Order.findById(id);
+  order.status = status;
+  await order.save();
+  res.redirect('/users/admin/shop-order');
 }

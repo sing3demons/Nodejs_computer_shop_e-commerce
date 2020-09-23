@@ -61,4 +61,8 @@ router.get('/admin/admin-user', checkAdmin.isAdmin, userController.getAdminManag
 /*POST users/admin */
 router.post('/admin/admin-user', checkAdmin.isAdmin, userController.adminManagementUserAndDelete);
 
+router.get('/admin/shop-order', checkAdmin.isAdmin, userController.getShopOrder);
+
+router.post('/admin/update-status-order/:id', checkAdmin.isAdmin, userController.shopOrder);
+
 module.exports = router;

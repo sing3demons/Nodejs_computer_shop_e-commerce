@@ -6,8 +6,8 @@ const schema = new mongoose.Schema({
     description: { type: String, required: true },
     price: { type: Number, required: true },
     photo: { type: String },
-    category: { type: Schema.Types.String, ref: 'Category',localField: '_id',foreignField: 'name'  }
-    
+    category: { type: Schema.Types.String, ref: 'Category', localField: '_id', foreignField: 'name' }
+
 }, {
     toJSON: { virtuals: true },
     timestamps: true,

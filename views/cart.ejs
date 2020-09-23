@@ -19,7 +19,8 @@
           <th scope="col">จำนวน</th>
           <th scope="col">ราคา</th>
           <th scope="col">รวม</th>
-          <th><a href="/shop/allDestroy"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button></a></th>
+          <th><a href="/shop/allDestroy"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button></a>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -33,7 +34,7 @@
           <td><%= formatNumber(product.price) %></td>
           <th><%= formatNumber(product.price * product.qty) %></th>
           <td class="text-right"><a id="productId" href="/shop/destroy/<%= product.item %>">
-            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button></a> </td>
+              <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> </button></a> </td>
         </tr>
         <%})%>
       </tbody>

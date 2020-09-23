@@ -12,7 +12,7 @@ const uploadReceipt = require('../middleware/uploads');
 
 /* @router GET >>> http://localhost:3000/shop */
 router.get('/', shopController.index);
-router.get('/add', checkAdmin.isAdmin , shopController.addProduct);
+router.get('/add', checkAdmin.isAdmin, shopController.addProduct);
 
 /* @router POST  "/shop/add" */
 router.post('/add', upload.single("photo"),
@@ -52,11 +52,11 @@ router.post('/adminProduct/delete/:id', shopController.adminDelete);
 router.get('/adminProduct/edit/:id', shopController.getAdminEdit);
 
 router.post('/admin/update', upload.single("photo"),
-[
-    check('name', "กรุณาป้อนข้อมูล").notEmpty(),
-    check('description', "กรุณาป้อนรายละเอียด").notEmpty(),
-    check('price', "กรุณาใส่ราคา").notEmpty()
-], shopController.adminEdit);
+    [
+        check('name', "กรุณาป้อนข้อมูล").notEmpty(),
+        check('description', "กรุณาป้อนรายละเอียด").notEmpty(),
+        check('price', "กรุณาใส่ราคา").notEmpty()
+    ], shopController.adminEdit);
 
 router.post('/checkout', shopController.checkOut);
 

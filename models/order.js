@@ -12,7 +12,7 @@ const order = new mongoose.Schema({
     province: { type: String },
     postal_code: { type: Number },
     displayCart: { type: Object },
-    status: { type: String, enum: ['ยังไม่ได้ชำระเงิน', 'ชำระเงินแล้ว', 'รอส่งสินค้า', 'ส่งสินค้าแล้ว', 'ยกเลิก'], default: 'ยังไม่ได้ชำระเงิน'}
+    status: { type: String, enum: ['ยังไม่ได้ชำระเงิน', 'ชำระเงินแล้ว', 'รอส่งสินค้า', 'ส่งสินค้าแล้ว', 'ยกเลิก'], default: 'ยังไม่ได้ชำระเงิน' }
 }, {
     timestamps: true
 });

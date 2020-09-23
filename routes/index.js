@@ -18,7 +18,7 @@ const checkSureAuthenticated = (req, res, next) => {
 router.get('/', [checkSureAuthenticated], async (req, res, next) => {
     const product = await Shop.find();
     const category = await Category.find();
-    res.render('index', { categories: category, products: product})
+    res.render('index', { categories: category, products: product })
 });
 
 

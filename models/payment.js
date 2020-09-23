@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    pay_id: { type: mongoose.Types.ObjectId, required: true },
+    pay_id: { type: String, required: true },
     bank_name: { type: String, required: true },
     price_total: { type: Number, required: true },
     image: { type: String },

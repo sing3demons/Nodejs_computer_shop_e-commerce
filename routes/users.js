@@ -24,7 +24,7 @@ router.get('/logout', (req, res) => {
 });
 
 /*@POST /users/login */
-router.post('/login' , [passport.isLogin], userController.login);
+router.post('/login', [passport.isLogin], userController.login);
 
 /*@GET /users/forgot */
 router.get('/forgot', userController.getForgotPassword)
@@ -47,6 +47,9 @@ router.post('/register', [
 /*GET users/edit*/
 router.get('/edituser', userController.getUpdateUser);
 
+//
+/*@POST /users/updateUser*/
+//
 router.post('/updateUser', userController.updateUser)
 
 /*GET users/admin */

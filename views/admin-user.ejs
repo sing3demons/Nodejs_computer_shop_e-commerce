@@ -24,21 +24,21 @@
             </tr>
           </thead>
           <tbody>
-            <%  if (locals.users) { %> 
-              <% users.forEach( (user) => { %>
-              <tr>
-                <th scope="row"><a href="/shop/showDetail/<%=user._id%>"><%= user.id %></a></th>
-                <th scope="row"><%= user.name %></th>
-                <th scope="row"><%= user.email%></td>
-                <td>
-                  <form action="users/admin/admin-user" method="post" class="delete-project">
-                    <input type="hidden" name="id" value="<%=user._id %>">
-                    <input type="submit" class="btn btn-danger" value="Delete">
-                    </a>
-                </td>
-              </tr>
-              <% }) %>
-            <% } %> 
+            <%  if (locals.users) { %>
+            <% users.forEach( (user) => { %>
+            <tr>
+              <th scope="row"><a href="/shop/showDetail/<%=user._id%>"><%= user.id %></a></th>
+              <th scope="row"><%= user.name %></th>
+              <th scope="row"><%= user.email%></td>
+              <td>
+                <form action="users/admin/admin-user" method="post" class="delete-project">
+                  <input type="hidden" name="id" value="<%=user._id %>">
+                  <input type="submit" class="btn btn-danger" value="Delete">
+                  </a>
+              </td>
+            </tr>
+            <% }) %>
+            <% } %>
           </tbody>
         </table>
       </div>

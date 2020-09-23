@@ -14,7 +14,7 @@ module.exports = (passport) => {
             const user = await User.findOne({ email: email });
             if (!user) {
                 return done(new Error('ไม่พบบัญชีผู้ใช้นี้'), null);
-            } 
+            }
 
             return done(null, user);
 

@@ -50,7 +50,8 @@ exports.register = async (req, res, next) => {
     user.postal_code = postal_code;
 
     await user.save();
-    console.log(user);
+    // console.log(user);
+
     res.location('/users/login');
     res.redirect('/users/login');
   }
@@ -242,19 +243,16 @@ exports.resetPassword = (req, res, next) => {
   });
 }
 
+//
+/*@POST /users/updateUser*/
+//
 exports.updateUser = async (req, res, next) => {
   const {
-    id,
-    username,
-    email,
-    fullName,
-    numberPhone,
-    addressInput,
-    subdistrict,
-    district,
-    province,
-    postal_code
+    id, username, email,
+    fullName, numberPhone, addressInput,
+    subdistrict, district, province,postal_code
   } = req.body;
+
   const user = await User.findById(id);
   user.name = username,
     user.email = email,

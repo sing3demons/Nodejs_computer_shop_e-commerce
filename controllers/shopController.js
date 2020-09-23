@@ -97,7 +97,7 @@ exports.insert = async (req, res, next) => {
     });
     await shop.save();
     res.location("/");
-        res.redirect("/");
+    res.redirect("/");
   } catch (error) {
     console.log(error);
   }
@@ -332,12 +332,12 @@ exports.checkOut = async (req, res, next) => {
 
   delete req.session.cart[item];
 
-    //
+  //
   /*send mail*/
   //
-  const data = await ejs.renderFile(__dirname + '/view/invoice.ejs' , { order: order });
+  const data = await ejs.renderFile(__dirname + '/view/invoice.ejs', { order: order });
   const smtpTransport = nodemailer.createTransport({
-    service: 'Gmail', 
+    service: 'Gmail',
     auth: {
       user: Config.GMAIL,
       pass: Config.GMAILPW
@@ -346,15 +346,15 @@ exports.checkOut = async (req, res, next) => {
   const mailOptions = {
     to: order.email,
     from: Config.GMAIL,
-    subject: 'ยืนยันคำสั่งซื้อหมายเลข' ,
+    subject: 'ยืนยันคำสั่งซื้อหมายเลข',
     html: data
   };
   smtpTransport.sendMail(mailOptions, (err) => {
     console.log('mail sent');
-    if(err)
-     console.log(err)
-   else
-     console.log(info);
+    if (err)
+      console.log(err)
+    else
+      console.log(info);
 
   });
 
@@ -405,62 +405,62 @@ exports.historyOrder = async (req, res, next) => {
 }
 
 exports.confirm_payment = async (req, res, next) => {
- try {
-  const { id, bank_name, price_total, date_payment, time_payment, description  } = req.body;
-  // const user = await User.findOne({id: req.body.userId});
+  try {
+    const { id, bank_name, price_total, date_payment, time_payment, description } = req.body;
+    // const user = await User.findOne({id: req.body.userId});
 
-  if (req.file) {
-    var image_pay = req.file.filename;
-  } else {
-    var image_pay = "No Image";
-  }
-
-  const payment = new Payment({
-    pay_id: id,
-    bank_name: bank_name,
-    image: image_pay,
-    price_total: price_total,
-    date_payment: date_payment,
-    time_payment: time_payment,
-    description: description
-  });
-  await payment.save();
-  
-  // res.status(200).json({
-  //   payment
-  // });
-
-  //
-  /*send mail*/
-  //
-  console.log(req.body.userEmail);
-
-  const smtpTransport = nodemailer.createTransport({
-    service: 'Gmail', 
-    auth: {
-      user: Config.GMAIL,
-      pass: Config.GMAILPW
+    if (req.file) {
+      var image_pay = req.file.filename;
+    } else {
+      var image_pay = "No Image";
     }
-  });
-  const mailOptions = {
-    to: Config.GMAIL,
-    from: req.body.userEmail,
-    subject: 'ยืนยันคำสั่งซื้อหมายเลข' + payment.pay_id ,
-    text: 'รายละเอียด\n' + 'ธนาคาร = ' + payment.bank_name + '\nจำนวน = ' + payment.price_total + '\nเวลา = ' + payment.time_payment + '\nวันที่ = ' + payment.date_payment
-  };
-  smtpTransport.sendMail(mailOptions, function(err) {
-    console.log('mail sent');
-    if(err)
-    console.log(err)
-  else
-    console.log(info);
 
-  });
-  res.redirect('/');
- } catch (error) {
-   console.log(error);
-   res.send('ไม่สามารถทำรายการได้');
- }
+    const payment = new Payment({
+      pay_id: id,
+      bank_name: bank_name,
+      image: image_pay,
+      price_total: price_total,
+      date_payment: date_payment,
+      time_payment: time_payment,
+      description: description
+    });
+    await payment.save();
+
+    // res.status(200).json({
+    //   payment
+    // });
+
+    //
+    /*send mail*/
+    //
+    console.log(req.body.userEmail);
+
+    const smtpTransport = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: Config.GMAIL,
+        pass: Config.GMAILPW
+      }
+    });
+    const mailOptions = {
+      to: Config.GMAIL,
+      from: req.body.userEmail,
+      subject: 'ยืนยันคำสั่งซื้อหมายเลข' + payment.pay_id,
+      text: 'รายละเอียด\n' + 'ธนาคาร = ' + payment.bank_name + '\nจำนวน = ' + payment.price_total + '\nเวลา = ' + payment.time_payment + '\nวันที่ = ' + payment.date_payment
+    };
+    smtpTransport.sendMail(mailOptions, function (err) {
+      console.log('mail sent');
+      if (err)
+        console.log(err)
+      else
+        console.log(info);
+
+    });
+    res.redirect('/');
+  } catch (error) {
+    console.log(error);
+    res.send('ไม่สามารถทำรายการได้');
+  }
 }
 
 /* @GET /shop/invoice/:id */
@@ -468,7 +468,7 @@ exports.invoice = async (req, res, next) => {
   if (req.user) {
     const { id } = req.params;
     const order = await Order.findById(id);
-    const payment = await Payment.find({pay_id: id});
+    const payment = await Payment.find({ pay_id: id });
     console.log(req.user);
     res.render('invoice', {
       order: order

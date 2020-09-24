@@ -269,7 +269,7 @@ exports.updateUser = async (req, res, next) => {
 /* @GET Admin users/admin */
 exports.admin = async (req, res, next) => {
   const user = await User.find();
-  res.render('admin', {
+  res.render('admin-user', {
     users: user
   });
 }

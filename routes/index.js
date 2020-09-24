@@ -6,26 +6,19 @@ const shop = require('../models/shop');
 const router = express.Router()
 
 
-const checkSureAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        return next();
-    } else {
-        //   res.redirect('/users/login');
-        next();
-    }
-}
+
 
 /* GET home page. */
-router.get('/', [checkSureAuthenticated], async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     const product = await Shop.find();
     const category = await Category.find();
     res.render('index', { categories: category, products: product })
 });
 
 router.post('/search', async (req, res, next) => {
-    const {search} = req.body;
-const shop = await Shop.find({"name":  {$regex: search, '$options': 'i'}})
-const category = await Category.find();
+    const { search } = req.body;
+    const shop = await Shop.find({ "name": { $regex: search, '$options': 'i' } })
+    const category = await Category.find();
     res.render('search', { categories: category, products: shop })
 });
 

@@ -47,7 +47,7 @@ router.post('/register', [
 ], userController.register);
 
 /*GET users/edit*/
-router.get('/edituser', userController.getUpdateUser);
+router.get('/edituser', passport.checkSureAuthenticated, userController.getUpdateUser);
 
 //
 /*@POST /users/updateUser*/
@@ -55,16 +55,16 @@ router.get('/edituser', userController.getUpdateUser);
 router.post('/updateUser', userController.updateUser)
 
 /*GET users/admin */
-router.get('/admin', checkAdmin.isAdmin, userController.admin);
+router.get('/admin', [passport.checkSureAuthenticated, checkAdmin.isAdmin], userController.admin);
 
 /*GET users/admin */
-router.get('/admin/admin-user', checkAdmin.isAdmin, userController.getAdminManagementUser);
+router.get('/admin/admin-user', [passport.checkSureAuthenticated, checkAdmin.isAdmin], userController.getAdminManagementUser);
 
 /*POST users/admin */
-router.post('/admin/admin-user', checkAdmin.isAdmin, userController.adminManagementUserAndDelete);
+router.post('/admin/admin-user', [passport.checkSureAuthenticated, checkAdmin.isAdmin], userController.adminManagementUserAndDelete);
 
-router.get('/admin/shop-order', checkAdmin.isAdmin, userController.getShopOrder);
+router.get('/admin/shop-order', [passport.checkSureAuthenticated, checkAdmin.isAdmin], userController.getShopOrder);
 
-router.post('/admin/update-status-order/:id', checkAdmin.isAdmin, userController.shopOrder);
+router.post('/admin/update-status-order/:id', [passport.checkSureAuthenticated, checkAdmin.isAdmin], userController.shopOrder);
 
 module.exports = router;

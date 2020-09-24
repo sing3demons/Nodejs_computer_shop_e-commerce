@@ -40,3 +40,12 @@ module.exports.isLogin = passport.authenticate('local', {
     failureRedirect: '/users/login',
     failureFlash: false // allow flash messages
 })
+
+module.exports.checkSureAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+          res.redirect('/users/login');
+        
+    }
+  }

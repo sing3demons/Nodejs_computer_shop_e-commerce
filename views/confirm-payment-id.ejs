@@ -12,6 +12,13 @@
             <%- include sidebar %>
             <div class="container col-9 col-md-9 mt-5 ">
                 <form action="/shop/confirm_payment" method="post" enctype="multipart/form-data" aria-required="true">
+                    <% if (locals.errors) { %>
+                        <ul class="alert alert-danger">
+                            <% Object.values(errors).forEach((error) => { %>
+                            <li><%= error.msg %></li>
+                            <% }); %>
+                        </ul>
+                        <% } %>
                     <% if (locals.order) { %>
                     <div class="mx-auto card text-left">
                         <article class="card-body">
@@ -69,7 +76,7 @@
 
                             <div class="form-group">
                                 <label for="exampleFormControlFile1">file input</label>
-                                <input type="file" class="form-control-file" name="image" id="">
+                                <input type="file" class="form-control-file" name="image" required>
                             </div>
 
                             <div class="form-group">

@@ -11,13 +11,20 @@
         <div class="row">
             <%- include sidebar %>
             <div class="container col-9 col-md-9 mt-4">
-                <form action="" method="post">
+                <% if (locals.errors) { %>
+                    <ul class="alert alert-danger">
+                        <% Object.values(errors).forEach((error) => { %>
+                        <li><%= error.msg %></li>
+                        <% }); %>
+                    </ul>
+                    <% } %>
+                <form action="/shop/confirm_payment" method="post" enctype="multipart/form-data" aria-required="true">
                     <div class="mx-auto card text-left">
                         <article class="card-body">
                             <div class="form-group row">
                                 <label for="example-number-input" class="col-2 col-form-label">รหัสสินค้า</label>
                                 <div class="col-10">
-                                    <input class="form-control" type="text" value="" id="example-number-input">
+                                    <input class="form-control" type="text" name="id" value="" id="example-number-input">
                                 </div>
                             </div>
                         </article>
@@ -47,27 +54,27 @@
                             <div class="form-group row">
                                 <label for="example-number-input" class="col-2 col-form-label">จำนวนเงินที่โอน</label>
                                 <div class="col-10">
-                                    <input class="form-control" type="number" value="" id="example-number-input">
+                                    <input class="form-control" type="number" name="price_total" value="">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="example-date-input" class="col-2 col-form-label">Date</label>
                                 <div class="col-10">
-                                    <input class="form-control" type="date" value="" id="example-date-input">
+                                    <input class="form-control" type="date" value="" name="date_payment">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="example-time-input" class="col-2 col-form-label">Time</label>
                                 <div class="col-10">
-                                    <input class="form-control" type="time" value="" id="example-time-input">
+                                    <input class="form-control" type="time" value="" name="time_payment">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleFormControlFile1">file input</label>
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                <input type="file" class="form-control-file" required>
                             </div>
 
                             <div class="form-group">
@@ -80,7 +87,7 @@
                         <input type="hidden" name="userEmail" value="<%= user.email %> ">
                     <% } %> 
 
-                    <button type="button" class="btn btn-success mt-2 btn-lg btn-block">ยืนยัน</button>
+                    <button type="submit" class="btn btn-success mt-2 btn-lg btn-block">ยืนยัน</button>
                 </form>
             </div>
         </div>

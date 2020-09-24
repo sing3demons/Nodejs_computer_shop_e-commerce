@@ -140,14 +140,13 @@ exports.cart = async (req, res, next) => {
     const productId = req.body.product_id;
     req.session.cart = req.session.cart || {};
     const cart = req.session.cart;
-    let displayCartQty = {};
     const shops = await Shop.findById({ _id: productId }, (err, product) => {
       //มากกว่าหนึ่งชิ้น
       if (cart[productId]) {
         cart[productId].qty++;
       } else {
         //ซื้อครั้งแรก
-        for (let shop in product) {
+        for (var shop in product) {
           cart[productId] = {
             item: product._id,
             title: product.name,
@@ -156,8 +155,9 @@ exports.cart = async (req, res, next) => {
           };
         }  
       }
+      res.redirect("/shop/cart");
     });
-     res.redirect("/shop/cart");
+     
   } catch (error) {
     console.log(error);
   }
@@ -174,10 +174,8 @@ exports.destroy = async (req, res, next) => {
 };
 
 exports.allDestroy = async (req, res, next) => {
-  const { id } = req.params;
   req.session.cart = req.session.cart || {};
-  const cart = req.session.cart;
-  req.session.destroy(cart);
+  req.session.cart = null;
   res.redirect("/");
 };
 
@@ -399,15 +397,21 @@ exports.historyOrder = async (req, res, next) => {
       orders: order
     });
   } else {
-    res.redirect('/users/login');
+    res.redirect('/');
   }
 }
 
 exports.confirm_payment = async (req, res, next) => {
   try {
     const { id, bank_name, price_total, date_payment, time_payment, description } = req.body;
-    // const user = await User.findOne({id: req.body.userId});
-
+  //Validation Data
+    const result = validationResult(req);
+    const errors = result.errors;
+    if (!result.isEmpty()) {
+      //Return error to views
+      res.redirect('/confirm_payment');
+    }
+    
     if (req.file) {
       var image_pay = req.file.filename;
     } else {
@@ -465,11 +469,27 @@ exports.invoice = async (req, res, next) => {
     const { id } = req.params;
     const order = await Order.findById(id);
     const payment = await Payment.find({ pay_id: id });
-    console.log(req.user);
     res.render('invoice', {
       order: order
     });
   } else {
     res.redirect('/users/login')
   }
+}
+
+exports.checkReceipt = async (req, res, next) => {
+  const payment = await Payment.find().sort({ _id: -1 })
+  const order = await Order.find();
+  res.render('Admin/receipt', {
+    payments: payment,
+    order: order
+  })
+}
+
+exports.updateStatusOrder = async (req, res, next) => {
+  const {id }= req.params;
+  const order = await Order.findById(id);
+  res.render('Admin/update-status', {
+    order: order
+  });
 }

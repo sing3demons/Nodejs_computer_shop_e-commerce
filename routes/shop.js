@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 const passport = require('../middleware/passport')
 const checkAdmin = require('../middleware/checkAdmin');
 const upload = require('../middleware/upload');
-const uploadReceipt = require('../middleware/uploads');
+const receipt = require('../middleware/receipt');
 
 
 
@@ -73,9 +73,19 @@ router.get('/confirmPayment/:id', shopController.confirmPayment);
 router.get('/historyOrder', shopController.historyOrder);
 
 /* @GET /shop/ */
-router.post('/confirm_payment', uploadReceipt.single('image'), shopController.confirm_payment);
+router.post('/confirm_payment', receipt.single('image'), 
+[
+    check('id', 'กรุณาป้อนรหัสสินค้า').notEmpty(),
+    check('price_total', 'กรุณาป้อนราคา').notEmpty(),
+    check('date_payment','กรุณาป้อนวันที่').notEmpty(),
+    check('time_payment','กรุณาป้อนเวลาที่โอน').notEmpty()
+], shopController.confirm_payment);
 
 /* @GET /shop/invoice:id */
 router.get('/invoice/:id', shopController.invoice);
+
+router.get('/admin/receipt', shopController.checkReceipt);
+
+router.get('/admin/updateStatusOrder/:id', shopController.updateStatusOrder)
 
 module.exports = router;

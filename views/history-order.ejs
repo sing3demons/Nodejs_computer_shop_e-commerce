@@ -30,11 +30,16 @@
           <td><%= order.fullName %> </td>
           <td><%= order.createdAt.toDateString() %> </td>
           <td> ฿ <%= formatNumber(order.displayCart.total)%> </td>
-          <td><%= order.status %> </td>
+          <% if (order.status === 'ยังไม่ได้ชำระเงิน') { %> 
+            <td> <a href="/shop/confirmPayment/<%= order._id %>" data-toggle="tooltip"  title="แจ้งชำระสินค้า" ><%= order.status %> </a> </td>
+            <% } else { %> 
+              <td><%= order.status %> </td>
+            <% } %> 
+
          <% if (order.status === 'ยกเลิก') { %> 
           <td></td>
          <% } else { %> 
-          <td><a href="/shop/invoice/<%= order._id %>">view</a></td>
+          <td><a href="/shop/invoice/<%= order._id %>">พิมพ์ใบเสร็จ</a></td>
          <% } %> 
         </tr>
         <% }) %>

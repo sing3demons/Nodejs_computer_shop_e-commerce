@@ -13,13 +13,14 @@
     <div class="row">
       <%- include Admin/dashboard %>
       <div class="col">
-        <h1 align="center" class="my-4"><u>Admin Management User</u></h1>
+        <h1 class="text-center my-4"><u>Admin Management User</u></h1>
         <table class="table">
           <thead class="thead-dark">
             <tr>
               <th scope="col">ID</th>
               <th scope="col">User Name</th>
               <th scope="col">E-mail</th>
+              <th scope="col">Role</th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
@@ -30,6 +31,7 @@
               <th scope="row"><a href="/shop/showDetail/<%=user._id%>"><%= user.id %></a></th>
               <th scope="row"><%= user.name %></th>
               <th scope="row"><%= user.email%></td>
+                <th scope="row"><%= user.role %> </th>
               <td>
                 <form action="users/admin/admin-user" method="post" class="delete-project">
                   <input type="hidden" name="id" value="<%=user._id %>">

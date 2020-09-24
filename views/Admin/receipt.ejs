@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>receipt</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+
+<body>
+  <%- include ../layout %>
+  <% include header %>
+  <% if(locals.user) { %>
+    <div class="container-fluid">
+        <div class="row">
+            <%- include dashboard %>
+        <div class="container col-9 col-md-9 mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">เลขที่สั่งซื้อ</th>
+                    <th scope="col">ธนาคาร</th>
+                    <th scope="col">วันที่</th>
+                    <th scope="col">เวลา</th>
+                    <th scope="col">ราคา</th>
+                    <th scope="col">รายละเอียดเพิ่มเติม</th>
+                    <th scope="col">สลิป</th>
+                    <th scope="col">แก้ไขสถานะ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% payments.forEach((payment) => { %> 
+                <tr>
+                    <td><%= payment.pay_id %> </td>
+                    <td><%= payment.bank_name %> </td>
+                    <td><%= payment.date_payment %> </td>
+                    <td><%= payment.time_payment %> </td>
+                    <td><%= payment.price_total %> </td>
+                    <td><%= payment.description%></td>
+                    <td> <a href="/receipt/<%=payment.image %>"><%=payment.image %></a> </td>
+                    <td><a href="/shop/admin/updateStatusOrder/<%= payment.pay_id %>" >แก้ไข</a></td>
+                <% }) %> 
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  <script>
+    $(document).ready(() => {
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+    </script>
+  <% } %>
+</body>
+</html>

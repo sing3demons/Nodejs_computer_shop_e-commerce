@@ -300,8 +300,10 @@ exports.adminManagementUserAndDelete = async (req, res, next) => {
 }
 
 exports.getShopOrder = async (req, res, next) => {
-  const order = await Order.find();
+  const order = await Order.find().sort({ _id: -1 });
+  const user = await User.find();
   res.render('Admin/history-order', {
+    users: user,
     orders: order
   });
 }
@@ -309,7 +311,6 @@ exports.getShopOrder = async (req, res, next) => {
 exports.shopOrder = async (req, res, next) => {
   const {id} = req.params;
   const {status} = req.body;
-  console.log(id + status);
   const order = await Order.findById(id);
   order.status = status;
   await order.save();

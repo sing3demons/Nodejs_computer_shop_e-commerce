@@ -13,7 +13,7 @@
     <div class="row">
       <%- include Admin/dashboard %>
       <div class="col">
-        <h1 class="text-center my-4"><u>Admin Management User</u></h1>
+        <p class="display-4 text-center my-4"><u>Admin Management User</u></p>
         <table class="table">
           <thead class="thead-dark">
             <tr>
@@ -28,7 +28,7 @@
             <%  if (locals.users) { %>
             <% users.forEach( (user) => { %>
             <tr>
-              <th scope="row"><a href="/shop/showDetail/<%=user._id%>"><%= user.id %></a></th>
+              <th scope="row"><%= user.id %></th>
               <th scope="row"><%= user.name %></th>
               <th scope="row"><%= user.email%></td>
                 <th scope="row"><%= user.role %> </th>

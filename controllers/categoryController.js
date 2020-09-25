@@ -4,14 +4,10 @@ const { validationResult } = require('express-validator');
 
 /* Admin @GET >>> http://localhost:3000/category/add */
 exports.index = async (req, res, next) => {
-    
         const category = await Category.find()
-
         res.render('addCategory', {
             categories: category
         });
-    
-
 }
 
 /* Admin @POST >>> http://localhost:3000/category/add */

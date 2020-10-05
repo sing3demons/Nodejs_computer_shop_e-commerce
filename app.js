@@ -54,7 +54,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   name: 'sessionId',
   secret: config.SECRET_KEY,
-  saveUninitialized: false, // don't create sessions for not logged in users
+  saveUninitialized: true, // don't create sessions for not logged in users
   resave: false, //don't save session if unmodified
   // Where to store session data
   store: new MongoStore({
@@ -62,11 +62,11 @@ app.use(session({
     ttl: 1 * 24 * 60 * 60 // = 14 days. ttl means "time to live" (expiration in seconds)
   }),
   // cookies settings
-  cookie: {
-    secure: false,
-    httpOnly: false, // if true, will disallow JavaScript from reading cookie data
-    expires: new Date(Date.now() + 60 * 60 * 1000) // 1 hour;
-  }
+  // cookie: {
+  //   secure: false,
+  //   httpOnly: false, // if true, will disallow JavaScript from reading cookie data
+  //   expires: new Date(Date.now() + 60 * 60 * 1000) // 1 hour;
+  // }
 }));
 // Passport Config
 require('./middleware/passport')(passport);

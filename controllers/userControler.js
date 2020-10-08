@@ -269,8 +269,10 @@ exports.updateUser = async (req, res, next) => {
 /* @GET Admin users/admin */
 exports.admin = async (req, res, next) => {
   const user = await User.find();
-  res.render('admin-user', {
-    users: user
+  const order = await Order.find().sort({ _id: -1 });
+  res.render('admin', {
+    users: user,
+    orders: order
   });
 }
 

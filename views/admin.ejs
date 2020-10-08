@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Admin Management</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+
+    <%- include admin-user %>
+    <hr>
+    <% if(locals.user) { %>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <p class="display-4 text-center my-4"><u>Admin Management User</u></p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">เลขที่สินค้า</th>
+                            <th scope="col">ชื่อ</th>
+                            <th scope="col">วันที่</th>
+                            <th scope="col">ราคา</th>
+                            <th scope="col">สถานะ</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <% orders.forEach((order) => { %>
+                        <form action="/users/admin/update-status-order/<%= order._id %> " method="post">
+                            <tr>
+                                <th scope="row"><%= order._id %></th>
+                                <td><%= order.fullName %> </td>
+                                <td><%= order.createdAt.toDateString() %> </td>
+                                <td> ฿ <%= formatNumber(order.displayCart.total)%> </td>
+                                <td>
+                                    <fieldset class="text-center ">
+                                        <select name="status" id="">
+                                            <option value="<%= order.status %>"><%= order.status %></option>
+                                            <option value="ยังไม่ได้ชำระเงิน">ยังไม่ได้ชำระเงิน</option>
+                                            <option value="กำลังตรวจสอบข้อมูล">กำลังตรวจสอบข้อมูล</option>
+                                            <option value="รอส่งสินค้า">รอส่งสินค้า</option>
+                                            <option value="ส่งสินค้าแล้ว">ส่งสินค้าแล้ว</option>
+                                            <option value="ยกเลิก">ยกเลิก</option>
+                                        </select>
+                                        <hr>
+                                    </fieldset>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="id" value="<%= order._id %>">
+                                    <button class="btn btn-success" type="submit">อัพเดท</button></td>
+                            </tr>
+                        </form>
+                        <% }) %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</body>
+
+</html>

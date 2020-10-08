@@ -54,8 +54,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   name: 'sessionId',
   secret: config.SECRET_KEY,
-  saveUninitialized: true, // don't create sessions for not logged in users
+  saveUninitialized: false, // don't create sessions for not logged in users
   resave: false, //don't save session if unmodified
+
   // Where to store session data
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
@@ -68,6 +69,7 @@ app.use(session({
   //   expires: new Date(Date.now() + 60 * 60 * 1000) // 1 hour;
   // }
 }));
+
 // Passport Config
 require('./middleware/passport')(passport);
 app.use(passport.initialize());

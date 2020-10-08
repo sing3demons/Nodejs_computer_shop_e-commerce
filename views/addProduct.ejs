@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>เพิ่มสินค้า</title>
+    <%- include title %>
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
 </head>
@@ -11,14 +11,11 @@
     <%- include layout %>
     <% include Admin/header %>
     <div class="container-fluid">
-
         <div class="row">
             <%- include Admin/dashboard %>
             <div class="col">
-
                 <div class="col-lg-12 my-4">
                     <h1>แบบฟอร์มเพิ่มสินค้า</h1>
-
                     <% if(locals.errors){ %>
                     <ul class="alert alert-danger">
                         <% Object.values(errors).forEach((error) => {%>
@@ -28,7 +25,6 @@
                         <% }) %>
                     </ul>
                     <% } %>
-
                     <form action="/shop/add" method="post" enctype="multipart/form-data" aria-required="true">
                         <div class="form-group">
                             <label for="">ชื่อสินค้า</label>

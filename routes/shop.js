@@ -73,13 +73,13 @@ router.get('/confirmPayment/:id', shopController.confirmPayment);
 router.get('/historyOrder', shopController.historyOrder);
 
 /* @GET /shop/ */
-router.post('/confirm_payment', receipt.single('image'), 
-[
-    check('id', 'กรุณาป้อนรหัสสินค้า').notEmpty(),
-    check('price_total', 'กรุณาป้อนราคา').notEmpty(),
-    check('date_payment','กรุณาป้อนวันที่').notEmpty(),
-    check('time_payment','กรุณาป้อนเวลาที่โอน').notEmpty()
-], shopController.confirm_payment);
+router.post('/confirm_payment', receipt.single('image'),
+    [
+        check('id', 'กรุณาป้อนรหัสสินค้า').notEmpty(),
+        check('price_total', 'กรุณาป้อนราคา').notEmpty(),
+        check('date_payment', 'กรุณาป้อนวันที่').notEmpty(),
+        check('time_payment', 'กรุณาป้อนเวลาที่โอน').notEmpty()
+    ], shopController.confirm_payment);
 
 /* @GET /shop/invoice:id */
 router.get('/invoice/:id', shopController.invoice);

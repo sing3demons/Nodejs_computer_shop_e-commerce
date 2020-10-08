@@ -13,12 +13,12 @@
             <div class="container col-9 col-md-9 mt-5 ">
                 <form action="/shop/confirm_payment" method="post" enctype="multipart/form-data" aria-required="true">
                     <% if (locals.errors) { %>
-                        <ul class="alert alert-danger">
-                            <% Object.values(errors).forEach((error) => { %>
-                            <li><%= error.msg %></li>
-                            <% }); %>
-                        </ul>
-                        <% } %>
+                    <ul class="alert alert-danger">
+                        <% Object.values(errors).forEach((error) => { %>
+                        <li><%= error.msg %></li>
+                        <% }); %>
+                    </ul>
+                    <% } %>
                     <% if (locals.order) { %>
                     <div class="mx-auto card text-left">
                         <article class="card-body">
@@ -86,9 +86,9 @@
                         </article>
                     </div>
 
-                    <% if (locals.user) { %> 
-                        <input type="hidden" name="userEmail" value="<%= user.email %> ">
-                    <% } %> 
+                    <% if (locals.user) { %>
+                    <input type="hidden" name="userEmail" value="<%= user.email %> ">
+                    <% } %>
 
                     <button type="submit" class="btn btn-success mt-2 btn-lg btn-block">ยืนยัน</button>
                     <% }else { %>

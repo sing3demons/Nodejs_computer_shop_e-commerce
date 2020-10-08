@@ -111,6 +111,7 @@ exports.showProducts = async (req, res, next) => {
 };
 
 /*@router GET */
+// http://localhost:3000/shop/showDetail/:id
 exports.showDetail = async (req, res, next) => {
   const { id } = req.params;
   const products = await Shop.findById(id);

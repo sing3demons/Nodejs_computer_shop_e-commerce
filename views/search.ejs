@@ -21,10 +21,12 @@
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="container">
                 <div class="card h-100">
-                  <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <img class="card-img-top" src="/images/<%= product.photo %>" alt="" loading="lazy"> </a>
+                  <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม">
+                    <img class="card-img-top" src="/images/<%= product.photo %>" alt="" loading="lazy"> </a>
                   <div class="card-footer">
                     <h class="card-title">
-                      <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม"> <%= product.name %> </a>
+                      <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม">
+                        <%= product.name %> </a>
                     </h>
                     <h5> ราคา <%= formatNumber(product.price) %> บาท</h5>
                     <form class="form-group text-center" action="/shop/cart/" method="post">
@@ -48,14 +50,15 @@
 
     </div>
     <!-- /.container -->
-    </div>
+  </div>
 
-    <!-- Footer -->
+  <!-- Footer -->
 
-    <script>
-      $(document).ready(() => {
-          $('[data-toggle="tooltip"]').tooltip();
-      });
-    </script>
+  <script>
+    $(document).ready(() => {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 </body>
+
 </html>

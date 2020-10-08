@@ -1,4 +1,16 @@
 <% include layout %> 
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<% if (locals.error) { %> 
+<div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-md-5 mx-auto text-center">
+          <div class="display-1 alert alert-danger"><%= message %> <%= error.status %></div>
+      </div>
+      
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-8 mx-auto text-center alert alert-warning p-5">
+                    <pre><%= error.stack %></pre>      
+        </div>
+    </div>
+  </div>
+<% } %> 

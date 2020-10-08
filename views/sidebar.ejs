@@ -1,8 +1,8 @@
-  <div class="col-lg-2 my-4">
-    <div class="list-group">
-      <a href="/" class="list-group-item active">หมวดหมู่</a>
-      <% categories.forEach( (category) => { %>
-        <a href="/shop/menu/?category=<%= category.name %>" class="list-group-item"><%= category.name %></a>
-    <% }) %> 
-    </div>
+<div class="col-lg-2 my-4">
+  <div class="list-group">
+    <a href="/" class="list-group-item active">หมวดหมู่</a>
+    <% categories.forEach( (category) => { %>
+    <a href="/shop/menu/?category=<%= category.name %>" class="list-group-item"><%= category.name %></a>
+    <% }) %>
   </div>
+</div>

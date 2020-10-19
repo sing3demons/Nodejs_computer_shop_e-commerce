@@ -318,3 +318,7 @@ exports.shopOrder = async (req, res, next) => {
   await order.save();
   res.redirect('/users/admin/shop-order');
 }
+
+exports.contact = (req, res, next) => {
+  res.render('contact')
+}

@@ -67,4 +67,6 @@ router.get('/admin/shop-order', [passport.checkSureAuthenticated, checkAdmin.isA
 
 router.post('/admin/update-status-order/:id', [passport.checkSureAuthenticated, checkAdmin.isAdmin], userController.shopOrder);
 
+router.get('/contact', userController.contact);
+
 module.exports = router;

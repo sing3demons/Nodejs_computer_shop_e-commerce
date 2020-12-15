@@ -92,6 +92,7 @@ app.locals.descriptionText = (text, length) => {
   return text.substring(0, length)
 }
 
+
 app.locals.formatNumber = (number) => {
   return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }

@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const Config = require("../config/index");
-const Shop = require("../models/shop");
+const Product = require("../models/shop");
 const Category = require("../models/category");
 const User = require('../models/user');
 const Order = require('../models/order')
@@ -12,23 +12,55 @@ const ejs = require('ejs');
 //@router GET Shop
 exports.index = async (req, res, next) => {
   const categories = await Category.find();
-  const shops = await Shop.find()
-    .select(" name, description, price, photo ")
-    .sort({ _id: -1 });
-  const shopWithPhotoDomain = await shops.map((shop, index) => {
-    return {
-      id: shop._id,
-      name: shop.name,
-      photo: "http://localhost:3000/images/" + shop.photo,
-      description: shop.description,
-      price: shop.price,
+  // const shops = await Shop.find()
+  //   .select(" name, description, price, photo ")
+  //   .sort({ _id: -1 });
+
+    const calSkip = (page, size) => {
+      return (page - 1) * size;
     };
+    
+    const calPage = (count, size) => {
+      return Math.ceil(count / size);
+    }
+  
+    const page = req.query.page || 1;
+      const size = req.query.size || 5;
+  
+      const [_results, _count] = await Promise.all([
+        Product.find()
+          .skip(calSkip(page, size))
+          .limit(size)
+          .exec(),
+        Product.countDocuments().exec()
+      ]);
+
+  // const shopWithPhotoDomain = await shops.map((shop, index) => {
+  //   return {
+  //     id: shop._id,
+  //     name: shop.name,
+  //     photo: "http://localhost:3000/images/" + shop.photo,
+  //     description: shop.description,
+  //     price: shop.price,
+  //   };
+  // });
+
+  // return res.json({
+  //   currentPage: page,
+  //   pages: calPage(_count, size),
+  //   currentCount: _results.length,
+  //   totalCount: _count,
+  //   data: _results
+  // });
+
+  return res.render("index", {
+    pages: calPage(_count, size),
+    current: page,
+    categories: categories,
+    products: _results,
   });
 
-  // res.status(200).json({
-  //     data: shopWithPhotoDomain
-  // })
-  res.redirect("/");
+  // res.redirect('/')
 };
 
 /*@POST*/

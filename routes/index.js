@@ -4,38 +4,10 @@ const Product = require("../models/shop");
 const Category = require("../models/category");
 const shop = require("../models/shop");
 const router = express.Router();
+const paging = require('../controllers')
 
 /* GET home page. */
-router.get("/", async (req, res, next) => {
-  const category = await Category.find();
-
-  const calSkip = (page, size) => {
-    return (page - 1) * size;
-  };
-
-  const calPage = (count, size) => {
-    return Math.ceil(count / size);
-  };
-
-  const page = req.query.page || 1;
-  const size = req.query.size || 2;
-
-  const [_results, _count] = await Promise.all([
-    Product.find().skip(calSkip(page, size)).limit(size).exec(),
-    Product.countDocuments().exec(),
-  ]);
-
-const pages = calPage(_count, size)
-
-
-
- return res.render("index", {
-    pages: pages,
-    current: page,
-    categories: category,
-    products: _results,
-  });
-});
+router.get("/", paging.Pagination);
 
 router.post("/search", async (req, res, next) => {
   const { search } = req.body;

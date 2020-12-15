@@ -1,66 +1,19 @@
-const { validationResult } = require("express-validator");
+const {
+  validationResult
+} = require("express-validator");
 const Config = require("../config/index");
-const Product = require("../models/shop");
+const Shop = require("../models/shop");
 const Category = require("../models/category");
 const User = require('../models/user');
 const Order = require('../models/order')
 const Payment = require('../models/payment');
 const nodemailer = require("nodemailer");
 const ejs = require('ejs');
-
+const paging = require('.')
 
 //@router GET Shop
 exports.index = async (req, res, next) => {
-  const categories = await Category.find();
-  // const shops = await Shop.find()
-  //   .select(" name, description, price, photo ")
-  //   .sort({ _id: -1 });
-
-    const calSkip = (page, size) => {
-      return (page - 1) * size;
-    };
-    
-    const calPage = (count, size) => {
-      return Math.ceil(count / size);
-    }
-  
-    const page = req.query.page || 1;
-      const size = req.query.size || 5;
-  
-      const [_results, _count] = await Promise.all([
-        Product.find()
-          .skip(calSkip(page, size))
-          .limit(size)
-          .exec(),
-        Product.countDocuments().exec()
-      ]);
-
-  // const shopWithPhotoDomain = await shops.map((shop, index) => {
-  //   return {
-  //     id: shop._id,
-  //     name: shop.name,
-  //     photo: "http://localhost:3000/images/" + shop.photo,
-  //     description: shop.description,
-  //     price: shop.price,
-  //   };
-  // });
-
-  // return res.json({
-  //   currentPage: page,
-  //   pages: calPage(_count, size),
-  //   currentCount: _results.length,
-  //   totalCount: _count,
-  //   data: _results
-  // });
-
-  return res.render("index", {
-    pages: calPage(_count, size),
-    current: page,
-    categories: categories,
-    products: _results,
-  });
-
-  // res.redirect('/')
+  paging.Pagination
 };
 
 /*@POST*/
@@ -68,12 +21,14 @@ exports.addProduct = async (req, res, next) => {
   const categories = await Category.find();
   const shops = await Shop.find()
     .select(" name, description, price, photo ")
-    .sort({ _id: -1 });
+    .sort({
+      _id: -1
+    });
   const shopWithPhotoDomain = await shops.map((shop, index) => {
     return {
       id: shop._id,
       name: shop.name,
-      photo: "http://localhost:3000/images/" + shop.photo,
+      photo: Config.DOMAIN + "images/" + shop.photo,
       description: shop.description,
       price: shop.price,
     };
@@ -102,7 +57,9 @@ exports.menu = async (req, res, next) => {
 
 /*GET shop by id with menu*/
 exports.getShopWithMenu = async (req, res, next) => {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
   const shopWithMenu = await Shop.findById(id).populate("category");
 
   res.status(200).json({
@@ -114,7 +71,12 @@ exports.getShopWithMenu = async (req, res, next) => {
 /* @router POST  "shop/add" */
 exports.insert = async (req, res, next) => {
   try {
-    const { name, description, price, photo } = req.body;
+    const {
+      name,
+      description,
+      price,
+      photo
+    } = req.body;
     if (req.file) {
       var projectimage = req.file.filename;
     } else {
@@ -139,13 +101,18 @@ exports.insert = async (req, res, next) => {
 exports.showProducts = async (req, res, next) => {
   const product = await Shop.find();
   const categories = await Category.find();
-  res.render("showProducts", { categories: categories, products: product });
+  res.render("showProducts", {
+    categories: categories,
+    products: product
+  });
 };
 
 /*@router GET */
 // http://localhost:3000/shop/showDetail/:id
 exports.showDetail = async (req, res, next) => {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
   const products = await Shop.findById(id);
   const categories = await Category.find();
   res.render("show", {
@@ -157,14 +124,19 @@ exports.showDetail = async (req, res, next) => {
 /*GET  Cart*/
 exports.getCart = (req, res, next) => {
   const cart = req.session.cart;
-  const displayCart = { item: [], total: 0 };
+  const displayCart = {
+    item: [],
+    total: 0
+  };
   var total = 0;
   for (item in cart) {
     displayCart.item.push(cart[item]);
     total += cart[item].qty * cart[item].price;
   }
   displayCart.total = total;
-  res.render("cart", { cart: displayCart });
+  res.render("cart", {
+    cart: displayCart
+  });
 };
 
 /* POST Cart */
@@ -173,7 +145,9 @@ exports.cart = async (req, res, next) => {
     const productId = req.body.product_id;
     req.session.cart = req.session.cart || {};
     const cart = req.session.cart;
-    const shops = await Shop.findById({ _id: productId }, (err, product) => {
+    const shops = await Shop.findById({
+      _id: productId
+    }, (err, product) => {
       //มากกว่าหนึ่งชิ้น
       if (cart[productId]) {
         cart[productId].qty++;
@@ -186,11 +160,11 @@ exports.cart = async (req, res, next) => {
             price: product.price,
             qty: 1,
           };
-        }  
+        }
       }
       res.redirect("/shop/cart");
     });
-     
+
   } catch (error) {
     console.log(error);
   }
@@ -198,7 +172,9 @@ exports.cart = async (req, res, next) => {
 
 /* GET /shop/destroy*/
 exports.destroy = async (req, res, next) => {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
   req.session.cart = req.session.cart || {};
   const cart = req.session.cart;
   // console.log(id);
@@ -214,7 +190,9 @@ exports.allDestroy = async (req, res, next) => {
 
 exports.adminManagement = async (req, res, next) => {
   const categories = await Category.find();
-  const shops = await Shop.find().sort({ _id: -1 });
+  const shops = await Shop.find().sort({
+    _id: -1
+  });
 
   res.render("adminProduct", {
     categories: categories,
@@ -224,9 +202,13 @@ exports.adminManagement = async (req, res, next) => {
 
 exports.adminDelete = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const categories = await Category.find();
-    const products = await Shop.findOneAndDelete({ _id: id });
+    const products = await Shop.findOneAndDelete({
+      _id: id
+    });
     if (products.deletedCount === 0) {
       throw new Error("ไม่สามารถลบข้อมูลได้");
     } else {
@@ -253,9 +235,13 @@ exports.getAdminDelete = (req, res, next) => {
 /* GET Edit */
 exports.getAdminEdit = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const categories = await Category.find();
-    const products = await Shop.find({ _id: id });
+    const products = await Shop.find({
+      _id: id
+    });
     res.render("updateProduct", {
       products: products,
       categories: categories,
@@ -272,8 +258,16 @@ exports.getAdminEdit = async (req, res, next) => {
 exports.adminEdit = async (req, res, next) => {
   try {
     const categories = await Category.find();
-    const { id } = req.body;
-    const { name, description, price, photo, category } = req.body;
+    const {
+      id
+    } = req.body;
+    const {
+      name,
+      description,
+      price,
+      photo,
+      category
+    } = req.body;
     if (req.file) {
       let productImage = req.file.filename;
       const shop = await Shop.findByIdAndUpdate(id, {
@@ -313,30 +307,50 @@ exports.adminEdit = async (req, res, next) => {
 /*POST /shop/payment*/
 exports.payment = async (req, res, next) => {
   if (req.user) {
-  const user = await User.findById();
-  // const productId = req.body.product_id;
+    const user = await User.findById();
+    // const productId = req.body.product_id;
 
-  req.session.cart = req.session.cart || {};
-  const cart = req.session.cart;
-  const displayCart = { item: [], total: 0 };
-  var total = 0;
-  for (item in cart) {
-    displayCart.item.push(cart[item]);
-    total += cart[item].qty * cart[item].price;
+    req.session.cart = req.session.cart || {};
+    const cart = req.session.cart;
+    const displayCart = {
+      item: [],
+      total: 0
+    };
+    var total = 0;
+    for (item in cart) {
+      displayCart.item.push(cart[item]);
+      total += cart[item].qty * cart[item].price;
+    }
+    displayCart.total = total;
+    res.render('checkout', {
+      cart: displayCart
+    });
+  } else {
+    res.redirect('/users/login');
   }
-  displayCart.total = total;
-  res.render('checkout', { cart: displayCart });
-} else {
-  res.redirect('/users/login');
-}
 };
 
 exports.checkOut = async (req, res, next) => {
-  const { email, name, fullName, numberPhone, addressInput, subdistrict, district, province, postal_code } = req.body;
+  const {
+    email,
+    name,
+    fullName,
+    numberPhone,
+    addressInput,
+    subdistrict,
+    district,
+    province,
+    postal_code
+  } = req.body;
   // const dataOrder = req.body;
-  const { express } = req.body;
+  const {
+    express
+  } = req.body;
   const cart = req.session.cart;
-  const displayCart = { item: [], total: 0 };
+  const displayCart = {
+    item: [],
+    total: 0
+  };
   var total = 0;
 
   if (express === 'basic') {
@@ -354,8 +368,15 @@ exports.checkOut = async (req, res, next) => {
   }
 
   const order = new Order({
-    email: email, name: name, fullName: fullName, numberPhone: numberPhone, addressInput: addressInput,
-    subdistrict: subdistrict, district: district, province: province, postal_code: postal_code,
+    email: email,
+    name: name,
+    fullName: fullName,
+    numberPhone: numberPhone,
+    addressInput: addressInput,
+    subdistrict: subdistrict,
+    district: district,
+    province: province,
+    postal_code: postal_code,
     displayCart: displayCart
   });
   await order.save();
@@ -365,7 +386,9 @@ exports.checkOut = async (req, res, next) => {
   //
   /*send mail*/
   //
-  const data = await ejs.renderFile(__dirname + '/view/invoice.ejs', { order: order });
+  const data = await ejs.renderFile(__dirname + '/view/invoice.ejs', {
+    order: order
+  });
   const smtpTransport = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -396,8 +419,12 @@ exports.checkOut = async (req, res, next) => {
 
 /*@GET /shop/showOrder */
 exports.showOrder = async (req, res, next) => {
-  const order = await Order.find().sort({ _id: -1 });
-  res.render('order', { orders: order })
+  const order = await Order.find().sort({
+    _id: -1
+  });
+  res.render('order', {
+    orders: order
+  })
 }
 
 /* @GET  /shop/confirmPayment */
@@ -406,12 +433,16 @@ exports.getConfirmPayment = async (req, res, next) => {
   // res.status(200).json({
   //   data: {message: "success"}
   // });
-  res.render('confirm-payment', { categories: category })
+  res.render('confirm-payment', {
+    categories: category
+  })
 }
 
 /*@GET/shop/confirmPayment/:id*/
 exports.confirmPayment = async (req, res, next) => {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
   const category = await Category.find();
   const order = await Order.findById(id);
   // res.status(200).json({ order });
@@ -424,7 +455,9 @@ exports.confirmPayment = async (req, res, next) => {
 /* @GET  /shop/historyOrder */
 exports.historyOrder = async (req, res, next) => {
   if (req.user) {
-    const { email } = req.user;
+    const {
+      email
+    } = req.user;
     const order = await Order.find().where('email').eq(email)
     res.render('history-order', {
       orders: order
@@ -436,15 +469,22 @@ exports.historyOrder = async (req, res, next) => {
 
 exports.confirm_payment = async (req, res, next) => {
   try {
-    const { id, bank_name, price_total, date_payment, time_payment, description } = req.body;
-  //Validation Data
+    const {
+      id,
+      bank_name,
+      price_total,
+      date_payment,
+      time_payment,
+      description
+    } = req.body;
+    //Validation Data
     const result = validationResult(req);
     const errors = result.errors;
     if (!result.isEmpty()) {
       //Return error to views
       res.redirect('/confirm_payment');
     }
-    
+
     if (req.file) {
       var image_pay = req.file.filename;
     } else {
@@ -499,9 +539,13 @@ exports.confirm_payment = async (req, res, next) => {
 /* @GET /shop/invoice/:id */
 exports.invoice = async (req, res, next) => {
   if (req.user) {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const order = await Order.findById(id);
-    const payment = await Payment.find({ pay_id: id });
+    const payment = await Payment.find({
+      pay_id: id
+    });
     res.render('invoice', {
       order: order
     });
@@ -511,7 +555,9 @@ exports.invoice = async (req, res, next) => {
 }
 
 exports.checkReceipt = async (req, res, next) => {
-  const payment = await Payment.find().sort({ _id: -1 })
+  const payment = await Payment.find().sort({
+    _id: -1
+  })
   const order = await Order.find();
   res.render('Admin/receipt', {
     payments: payment,
@@ -520,7 +566,9 @@ exports.checkReceipt = async (req, res, next) => {
 }
 
 exports.updateStatusOrder = async (req, res, next) => {
-  const {id }= req.params;
+  const {
+    id
+  } = req.params;
   const order = await Order.findById(id);
   res.render('Admin/update-status', {
     order: order

@@ -7,11 +7,11 @@ const passport = require('../middleware/passport')
 const checkAdmin = require('../middleware/checkAdmin');
 const upload = require('../middleware/upload');
 const receipt = require('../middleware/receipt');
-
+const paging = require('../controllers/index')
 
 
 /* @router GET >>> http://localhost:3000/shop */
-router.get('/', shopController.index);
+router.get('/', paging.Pagination);
 router.get('/add', checkAdmin.isAdmin, shopController.addProduct);
 
 /* @router POST  "/shop/add" */

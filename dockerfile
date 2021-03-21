@@ -9,6 +9,6 @@ COPY ./ ./
 #หลังจาก install แล้วก็จะทำการ เริ่มโปรแกรม
 CMD ["npm","start"]
 
-# docker build . -t [nametag]:[versiontag]
+# docker build . -t nodejs:1.0 [nametag]:[versiontag]
 # -t คือ กำหนด tag ถ้าไม่กำหนด tag มันคือ default
 # docker run -p 2000:4000 [nametag]:[versiontag]

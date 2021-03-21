@@ -12,6 +12,8 @@ const paging = require('../controllers/index')
 
 /* @router GET >>> http://localhost:3000/shop */
 router.get('/', paging.Pagination);
+router.get('/products', shopController.products);
+router.get('/allproducts', shopController.allProducts);
 router.get('/add', checkAdmin.isAdmin, shopController.addProduct);
 
 /* @router POST  "/shop/add" */

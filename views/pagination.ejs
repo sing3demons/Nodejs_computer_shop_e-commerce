@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+</head>
+
+<body>
+    <nav aria-label="Page navigation example">
+        <% if (pages> 0) { %>
+
+            <ul class="pagination">
+                <ul class="pagination text-center mr-auto">
+                    <% if (current==1) { %>
+
+                        <a class="disabled page-link" href="/shop/products?page=1" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                            <span class="sr-only">First</span>
+                        </a>
+                        <% } else { %>
+                            <a class="page-link" href="/shop/products?page=1" aria-label="Previous">
+                                <span aria-hidden="true">«</span>
+                                <span class="sr-only">First</span>
+                            </a>
+
+                            <% } %>
+                                <% var i=(Number(current)> 5 ? Number(current) - 4 : 1) %>
+                                    <% if (i !==1) { %>
+                                        <li class="disabled"><a class="page-link">...</a></li>
+                                        <% } %>
+                                            <% for (; i <=(Number(current) + 4) && i <=pages; i++) { %>
+                                                <% if (i==current) { %>
+                                                    <li class="active"><a class="page-link">
+                                                            <%= i %>
+                                                        </a></li>
+                                                    <% } else { %>
+                                                        <li class="page-item"><a class="page-link"
+                                                                href="/shop/products?page=<%= i %>">
+                                                                <%= i %>
+                                                            </a></li>
+                                                        <% } %>
+                                                            <% if (i==Number(current) + 4 && i < pages) { %>
+                                                                <li class="disabled page-item"><a
+                                                                        class="page-link">...</a>
+                                                                </li>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% if (current==pages) { %>
+
+                                                                            <% } else { %>
+                                                                                <li class="page-item "><a
+                                                                                        class="page-link"
+                                                                                        href="/shop/products?page=<%= pages %>">
+                                                                                        <span
+                                                                                            aria-hidden="true">»</span>
+                                                                                        <span
+                                                                                            class="sr-only">Last</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                                <% } %>
+
+                </ul>
+                <% } %>
+                    <ul class="navbar-nav">
+                        <li class="page-item"><a class="page-link" href="/shop/allproducts">All</a></li>
+                    </ul>
+
+
+    </nav>
+</body>
+
+</html>

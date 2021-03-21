@@ -16,6 +16,50 @@ exports.index = async (req, res, next) => {
   paging.Pagination
 };
 
+exports.products = async (req, res, next) => {
+    const categories = await Category.find();
+ 
+    const calSkip = (page, size) => {
+      return (page - 1) * size;
+    };
+  
+    const calPage = (count, size) => {
+      return Math.ceil(count / size);
+    }
+  
+    const page = req.query.page || 1;
+    const size = req.query.size || 12;
+  
+    const [_results, _count] = await Promise.all([
+      Shop.find()
+      .skip(calSkip(page, size))
+      .limit(size)
+      .exec(),
+      Shop.countDocuments().exec()
+    ]);
+  
+    const pages = calPage(_count, size)
+  
+    return res.render("products", {
+      categories: categories,
+      products: _results,
+      pages: pages,
+      current: page,
+      totalCount: _count,
+    })
+}
+
+exports.allProducts = async (req, res, next) => {
+  const categories = await Category.find();
+  const products = await Shop.find()
+
+  return res.render("productsAll", {
+    categories: categories,
+    products: products,
+   
+  })
+}
+ 
 /*@POST*/
 exports.addProduct = async (req, res, next) => {
   const categories = await Category.find();

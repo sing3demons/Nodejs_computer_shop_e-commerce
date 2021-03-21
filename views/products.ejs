@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include title %>
+</head>
+
+<body>
+    <%- include layout %>
+    <div class="container-fluid">
+      <div class="row">
+        <%- include sidebar %>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+          <div class="carousel slide my-4" data-ride="carousel">
+            <!-- page -->
+            <%- include pagination %>
+            
+            <!-- end Page -->
+            <div class="row my-4">
+              <% products.forEach((product) => { %>
+              <div class="col-lg-4 col-md-6 mb-4">
+                <div class="container">
+                  <div class="card h-100">
+                    <a href="/shop/showDetail/<%=product._id%>">
+                      <img class="card-img-top" src="/images/<%= product.photo %>" alt="" loading="lazy"> </a>
+                    <div class="card-footer">
+                      <h class="card-title">
+                        <a href="/shop/showDetail/<%=product._id%>" data-toggle="tooltip" title="อ่านรายละเอียดเพิ่มเติม">
+                          <%= product.name %> </a>
+                      </h>
+                      <h5> ราคา <%= formatNumber(product.price) %> บาท</h5>
+                      <form class="form-group text-center" action="/shop/cart/" method="post">
+                        <input type="hidden" name="product_id" value="<%=product._id%>">
+                        <input type="submit" name="" value="ADD TO CART" class="btn btn-outline-success btn-block">
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% })  %>
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.col-lg-9 -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container -->
+    </div>
+    <!-- Footer -->
+    <% include footer %>
+    <script>
+      $(document).ready(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+  
+</body>
+
+</html>

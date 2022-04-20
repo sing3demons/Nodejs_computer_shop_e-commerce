@@ -22,7 +22,7 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
       ME_CONFIG_MONGODB_URL: ${MONGODB_URI}
   webapi:
-    image: combuy:0.2
+    image: sing3demons/combuy:0.1
     container_name: combuy
     ports:
      - 3000:3000

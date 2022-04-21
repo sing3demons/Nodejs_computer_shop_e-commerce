@@ -5,6 +5,6 @@ docker compose up -d
 ```
 
 #### ภาพ project
-[![web01.png](https://i.postimg.cc/QChs1pn0/web01.png)](https://postimg.cc/BLYdG13K)
+![This is an image](https://github.com/sing3demons/Nodejs_computer_shop_e-commerce/blob/main/web01.png?raw=true)
 
-[![web02.png](https://i.postimg.cc/15WPVV0r/web02.png)](https://postimg.cc/ppn3gT6m)
+![This is an image](https://github.com/sing3demons/Nodejs_computer_shop_e-commerce/blob/main/web02.png?raw=true)

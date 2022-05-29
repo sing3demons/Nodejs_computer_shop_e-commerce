@@ -9,9 +9,11 @@ const session = require('express-session');
 const passport = require('passport');
 const MongoStore = require('connect-mongo')(session);
 const { connectMongo, mongoose } = require('./database/mongodb.js');
-const config = require('./config/index')
-    //ชำระเงิน
-const stripe = require('stripe')(config.PAY_STRIPE);
+const { PORT, PAY_STRIPE, SECRET_KEY, NODE_ENV } = require('./config/index')
+
+
+//ชำระเงิน
+const stripe = require('stripe')(PAY_STRIPE);
 
 //router
 const indexRouter = require('./routes/index');
@@ -22,6 +24,8 @@ const seed = require('./seeds/seed.js');
 
 
 const app = express();
+const port = normalizePort(PORT || '3000');
+app.set('port', port);
 
 app.set('trust proxy', 1);
 const limiter = rateLimit({
@@ -52,7 +56,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     name: 'sessionId',
-    secret: config.SECRET_KEY,
+    secret: SECRET_KEY,
     saveUninitialized: false, // don't create sessions for not logged in users
     resave: false, //don't save session if unmodified
 
@@ -116,11 +120,41 @@ app.post('/payment', (req, res) => {
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === config.NODE_ENV ? err : {};
+    res.locals.error = req.app.get('env') === NODE_ENV ? err : {};
 
     // render the error page
     res.status(err.status || 500);
     res.render('error');
 });
 
-module.exports = app;
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+// listening
+app.listen(port, () => console.log(`listening on port ${port}!`))
+
+process.on('SIGTERM', () => {
+    console.info('SIGTERM signal received.');
+    console.log('Closing http server.');
+    app.close(() => {
+        console.log('Http server closed.');
+        // boolean means [force], see in mongoose doc
+        mongoose.connection.close(false, () => {
+            console.log('MongoDb connection closed.');
+            process.exit(0);
+        });
+    });
+})

@@ -38,3 +38,4 @@ typings/
 .next
 _mongo_data
 _data
+k8s/secret.yml

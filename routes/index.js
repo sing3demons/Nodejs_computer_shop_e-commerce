@@ -9,11 +9,13 @@ const paging = require('../controllers')
 /* GET home page. */
 router.get("/", paging.Pagination);
 
-router.post("/search", async (req, res, next) => {
-  const { search } = req.body;
-  const shop = await Shop.find({ name: { $regex: search, $options: "i" } });
-  const category = await Category.find();
-  res.render("search", { categories: category, products: shop });
+router.post("/search", async(req, res, next) => {
+    const { search } = req.body;
+    const shop = await Shop.find({ name: { $regex: search, $options: "i" } });
+    const category = await Category.find();
+    res.render("search", { categories: category, products: shop });
 });
+
+router.get('/healthz', (req, res, next) => res.status(200))
 
 module.exports = router;

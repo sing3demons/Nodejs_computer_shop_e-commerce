@@ -11,3 +11,4 @@ node_modules
 .gitignore
 .dockerignore
 data
+k8s

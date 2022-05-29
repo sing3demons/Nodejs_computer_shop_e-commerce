@@ -1,0 +1,12 @@
+web01.png
+web02.png
+README.md
+_data
+dev.env
+docker-compose.yaml	
+dockerfile
+node_modules
+.git
+.env
+.gitignore
+.dockerignore

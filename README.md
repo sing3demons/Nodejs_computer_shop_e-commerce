@@ -1,6 +1,10 @@
 # Nodejs_computer_shop_e-commerce
 
 ```
+docker build -t sing3demons/combuy:0.1.2 .  
+```
+
+```
 docker compose up -d
 ```
 

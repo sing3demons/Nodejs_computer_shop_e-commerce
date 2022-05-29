@@ -8,7 +8,8 @@ const rateLimit = require("express-rate-limit");
 const session = require('express-session');
 const passport = require('passport');
 const MongoStore = require('connect-mongo')(session);
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+const { connectMongo, mongoose } = require('./database/mongodb.js');
 const config = require('./config/index')
     //ชำระเงิน
 const stripe = require('stripe')(config.PAY_STRIPE);
@@ -18,6 +19,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const categoryRouter = require('./routes/category');
 const shopRouter = require('./routes/shop');
+const seed = require('./seeds/seed.js');
+
 
 const app = express();
 
@@ -30,13 +33,9 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(helmet());
 
-// connect mongodb
-mongoose.connect(config.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-});
+
+connectMongo()
+seed()
 
 
 // view engine setup

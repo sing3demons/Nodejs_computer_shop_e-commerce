@@ -1,6 +1,10 @@
 # Nodejs_computer_shop_e-commerce
 
 ```
+git clone https://github.com/sing3demons/Nodejs_computer_shop_e-commerce.git
+```
+
+```
 docker build -t sing3demons/combuy:0.1.2 .  
 ```
 

@@ -3,8 +3,7 @@ const Shop = require("../models/shop.js");
 const categories = require("./category.js");
 const products = require("./product.js");
 
-const seed = async() => {
-    const shop = await Shop.find();
+const seedCategory = async() => {
     const category = await Category.find();
     if (category.length === 0) {
         console.log(`categories: ${categories.length} creating...`);
@@ -18,8 +17,11 @@ const seed = async() => {
         console.log(`categories success...`);
         return;
     }
+};
 
-    console.log(`shop: ${shop}`);
+const seedProduct = async() => {
+    const shop = await Shop.find();
+
     if (shop.length === 0) {
         console.log(`products: ${products.length} creating...`);
         products.forEach(async({ name, description, price, photo, category }) => {
@@ -37,6 +39,11 @@ const seed = async() => {
         console.log(`products success...`);
         return;
     }
+};
+
+const seed = async() => {
+    seedCategory();
+    seedProduct();
 };
 
 module.exports = seed;

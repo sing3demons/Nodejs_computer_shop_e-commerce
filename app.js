@@ -8,7 +8,6 @@ const rateLimit = require("express-rate-limit");
 const session = require('express-session');
 const passport = require('passport');
 const MongoStore = require('connect-mongo')(session);
-// const mongoose = require('mongoose');
 const { connectMongo, mongoose } = require('./database/mongodb.js');
 const config = require('./config/index')
     //ชำระเงิน
